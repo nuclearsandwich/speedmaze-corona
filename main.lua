@@ -26,24 +26,58 @@ grid.displayGroup = display.newGroup()
 -- Fill a background for the grid area.
 grid.area = display.newRect(grid.displayGroup, 0, 0,
 	grid.xSquares * grid.squareSize, grid.ySquares * grid.squareSize)
-grid.area:setFillColor(254, 215, 0)
+grid.area:setFillColor(215, 215, 215)
 grid.displayGroup.x = grid.xStart
 grid.displayGroup.y = grid.yStart
+
+local function leftGrid(gridSquare)
+    if gridSquare.x == 0 then
+        return gridSquare
+    else
+        return grid[gridSquare.x - 1][gridSquare.y]
+    end
+end
+
+local function rightGrid(gridSquare)
+    if gridSquare.x + 1 == grid.xSquares then
+        return gridSquare
+    else
+        return grid[gridSquare.x + 1][gridSquare.y]
+    end
+end
+
+local function aboveGrid(gridSquare)
+    if gridSquare.y == 0 then
+        return gridSquare
+    else
+        return grid[gridSquare.x][gridSquare.y - 1]
+    end
+end
+
+local function belowGrid(gridSquare)
+    if gridSquare.y + 1 == grid.ySquares then
+        return gridSquare
+    else
+        return grid[gridSquare.x][gridSquare.y + 1]
+    end
+end
 
 
 for x = 0, 9 do
     grid[x] = {x = x} -- Create grid row table.
-    
+
 	for y = 0, 5 do
         grid[x][y] = {x = x, y = y} -- Create grid element.
         local rect = display.newRect(grid.displayGroup,
             grid.squareSize * x, grid.squareSize * y,
 			grid.squareSize, grid.squareSize)
-        
+
 		rect:setFillColor(0, 0, 0, 0)
-		rect:setStrokeColor(196, 128, 0, 128)
-		rect.strokeWidth = 5
         grid[x][y].displayObject = rect
+        grid[x][y].left = leftGrid
+        grid[x][y].right = rightGrid
+        grid[x][y].above = aboveGrid
+        grid[x][y].below = belowGrid
 	end
 end
 
@@ -116,23 +150,62 @@ local function putObstacle(obstacle, gridSquare)
     obstacle.x = gridSquare.x
     obstacle.y = gridSquare.y
     obstacle.displayObject = display.newRect(grid.displayGroup,
-        gridSquare.displayObject.x, gridSquare.displayObject.y,
-        gridSquare.displayObject.width, gridSquare.displayObject.height)
+        gridSquare.x * grid.squareSize, gridSquare.y * grid.squareSize,
+        grid.squareSize, grid.squareSize)
     obstacle.displayObject:setFillColor(0, 0, 0)
-    print(gridSquare.displayObject.x, gridSquare.displayObject.xOrigin)
+    gridSquare.obstacle = obstacle
 end
 
 putObstacle(obstacles.rock, grid[4][1])
 putObstacle(obstacles.tree, grid[6][3])
 
---[[ Make the robot move when controlled
+--[[ Make the robot move when controlled ]]
 
 
 local function pressLeft(event)
-    if event.phase == "began" and robot.x - gridSquareSize > gridXBegin then
-        robot.x = robot.x - gridSquareSize
+    if event.phase == "began" then
+        local nextSquare = robot.gridSquare:left()
+        if robot:canEnter(nextSquare) then
+            robot:enter(nextSquare)
+        else
+            saying:update(nextSquare.obstacle.saying)
+        end
     end
 end
-leftRect:addEventListener("touch", pressLeft)
 
-]]
+local function pressRight(event)
+    if event.phase == "began" then
+        local nextSquare  = robot.gridSquare:right()
+        if robot:canEnter(nextSquare) then
+            robot:enter(nextSquare)
+        else
+            saying:update(nextSquare.obstacle.saying)
+        end
+    end
+end
+
+local function pressUp(event)
+    if event.phase == "began" then
+        local nextSquare  = robot.gridSquare:above()
+        if robot:canEnter(nextSquare) then
+            robot:enter(nextSquare)
+        else
+            saying:update(nextSquare.obstacle.saying)
+        end
+    end
+end
+
+local function pressDown(event)
+    if event.phase == "began" then
+        local nextSquare  = robot.gridSquare:below()
+        if robot:canEnter(nextSquare) then
+            robot:enter(nextSquare)
+        else
+            saying:update(nextSquare.obstacle.saying)
+        end
+    end
+end
+controls.left.displayObject:addEventListener("touch", pressLeft)
+controls.right.displayObject:addEventListener("touch", pressRight)
+controls.up.displayObject:addEventListener("touch", pressUp)
+controls.down.displayObject:addEventListener("touch", pressDown)
