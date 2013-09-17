@@ -87,11 +87,13 @@ robot = {}
 robot.radius = grid.squareSize / 2
 
 function robot:enter(gridSquare)
-    local newX = gridSquare.displayObject.x
-    local newY = gridSquare.displayObject.y
+    local newX = gridSquare.displayObject.x - 100
+    local newY = gridSquare.displayObject.y - 100
     if self.displayObject == nil then
-        self.displayObject = display.newCircle(grid.displayGroup, newX, newY, self.radius)
-        self.displayObject:setFillColor(200, 40, 40)
+        self.displayObject = display.newImage(grid.displayGroup, "robot.png", newX, newY)
+        self.displayObject:setReferencePoint(display.TopLeftReferencePoint)
+        self.displayObject.width = 100
+        self.displayObject.height = 100
     else
         self.displayObject.x = newX
         self.displayObject.y = newY
@@ -141,16 +143,19 @@ function obstacleHasKitten(obstacle)
 end
 
 obstacles.rock = {
+    image = "rock.png",
     saying = "There is no spoon.. or cat",
     hasKitten = obstacleHasKitten,
 }
 obstacles[0] = obstacles.rock
 obstacles.trashcan = {
+    image = "trash.png",
     saying = "Hmm. What was I looking for?",
     hasKitten = obstacleHasKitten,
 }
 obstacles[1] = obstacles.trashcan
 obstacles.tree = {
+    image = "tree.png",
     saying = "The sky is nice today.",
     hasKitten = obstacleHasKitten,
 }
@@ -237,7 +242,12 @@ function robotfindskitten()
         obstacles[i].displayObject = nil
     end
     robot.foundKitten = true
-  
+    local kitten = { displayObject = display.newImage(grid.displayGroup, "kitten.png") }
+    kitten.enter = robot.enter
+    kitten.displayObject:setReferencePoint(display.TopLeftReferencePoint)
+    kitten.displayObject.width = 100
+    kitten.displayObject.height = 100
+    kitten:enter(grid[5][4])
     
     display.remove(controls.up.displayObject)
     controls.up.displayObject = nil
@@ -247,6 +257,6 @@ function robotfindskitten()
     controls.left.displayObject = nil
     display.remove(controls.right.displayObject)
     controls.right.displayObject = nil
-      robot:enter(grid[5][4])
+    robot:enter(grid[4][4])
     saying:update("Robot finds kitten!")
 end
