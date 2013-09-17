@@ -23,10 +23,10 @@ grid.xEnd = grid.yStart + grid.squareSize * grid.ySquares
 grid.displayGroup = display.newGroup()
 
 
--- Fill a background for the grid area.
+--[[ Fill a background for the grid area. ]]
 grid.area = display.newRect(grid.displayGroup, 0, 0,
 	grid.xSquares * grid.squareSize, grid.ySquares * grid.squareSize)
-grid.area:setFillColor(215, 215, 215)
+grid.area:setFillColor(218, 218, 218)
 grid.displayGroup.x = grid.xStart
 grid.displayGroup.y = grid.yStart
 
