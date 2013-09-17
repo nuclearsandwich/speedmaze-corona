@@ -8,78 +8,131 @@
 local screenWidth = display.actualContentWidth
 local screenHeight = display.actualContentHeight
 local controllerWidth = screenWidth / 10
-local gridWidth = screenWidth - controllerWidth
-local gridYBegin = 20
-local gridXBegin = controllerWidth
-local gridSquareSize = 100
+
+local grid = {}
+grid.xSquares = 10
+grid.ySquares = 6
+grid.squareSize = 100
+
+grid.totalWidth = screenWidth - controllerWidth
+
+grid.xStart = screenWidth / 10
+grid.xEnd = grid.xStart + grid.squareSize * grid.xSquares
+grid.yStart = 60
+grid.xEnd = grid.yStart + grid.squareSize * grid.ySquares
+grid.displayGroup = display.newGroup()
+
 
 -- Fill a background for the grid area.
-local gridArea = display.newRect(gridXBegin, gridYBegin,
-	gridSquareSize * 10, gridSquareSize * 6)
-gridArea:setFillColor(254, 215, 0)
+grid.area = display.newRect(grid.displayGroup, 0, 0,
+	grid.xSquares * grid.squareSize, grid.ySquares * grid.squareSize)
+grid.area:setFillColor(254, 215, 0)
+grid.displayGroup.x = grid.xStart
+grid.displayGroup.y = grid.yStart
+
+
 for x = 0, 9 do
+    grid[x] = {x = x} -- Create grid row table.
+    
 	for y = 0, 5 do
-		xPosition = (x * gridSquareSize) + gridXBegin + 5
-		yPosition = (y * gridSquareSize) + gridYBegin + 5
-		local rectangle = display.newRect(xPosition, yPosition,
-			gridSquareSize - 10, gridSquareSize - 10)
-		rectangle:setFillColor(0, 0, 0, 0)
-		rectangle:setStrokeColor(196, 128, 0, 128)
-		rectangle.strokeWidth = 5
+        grid[x][y] = {x = x, y = y} -- Create grid element.
+        local rect = display.newRect(grid.displayGroup,
+            grid.squareSize * x, grid.squareSize * y,
+			grid.squareSize, grid.squareSize)
+        
+		rect:setFillColor(0, 0, 0, 0)
+		rect:setStrokeColor(196, 128, 0, 128)
+		rect.strokeWidth = 5
+        grid[x][y].displayObject = rect
 	end
 end
 
--- 2. display controls
-local upRect = display.newRect(-50, 480, 30, 50)
-local downRect = display.newRect(-50, 570, 30, 50)
-local rightRect = display.newRect(-15, 535, 50, 30)
-local leftRect = display.newRect(-105, 535, 50, 30)
 
--- 3. display the robot
+--[[ Create the robot ]]
+robot = {}
+robot.radius = grid.squareSize / 2
 
-local robot = display.newCircle(gridXBegin + 50, gridYBegin + 50, 45);
-
--- 4. display the saying
-
-local fontOptions = { font = native.systemFont, text = "This is where the text will go", x = 100, y = 700, fontSize = 48 }
-display.newText(fontOptions.text, fontOptions.x, fontOptions.y, fontOptions.font, fontOptions.fontSize)
-
--- 5. dispay obstacles
-
--- 6. make the robot move when controlled
-
-function upRect:touch(event)
-	if event.phase == "began" then
-        if robot.y - gridSquareSize > gridYBegin then
-		  robot.y = robot.y - gridSquareSize
-        end
-	end
+function robot:enter(gridSquare)
+    local newX = gridSquare.displayObject.x
+    local newY = gridSquare.displayObject.y
+    if self.displayObject == nil then
+        self.displayObject = display.newCircle(grid.displayGroup, newX, newY, self.radius)
+    else
+        self.displayObject.x = newX
+        self.displayObject.y = newY
+    end
+    robot.gridSquare = gridSquare
 end
-upRect:addEventListener("touch", upRect)
 
-
-function rightRect:touch(event)
-	if event.phase == "began" then
-        if robot.x + gridSquareSize < gridXBegin + gridSquareSize * 10 then
-		  robot.x = robot.x + gridSquareSize
-        end
-	end
+function robot:canEnter(gridSquare)
+    return gridSquare.obstacle == nil
 end
-rightRect:addEventListener("touch", rightRect)
 
-function downRect:touch(event)
-    if event.phase == "began" then
-        if robot.y + gridSquareSize < gridYBegin + gridSquareSize * 6 then
-            robot.y = robot.y + gridSquareSize
-        end
+robot:enter(grid[0][0]) -- Put the robot in the first square.
+
+
+--[[ Display controls ]]
+local controls = {
+    up    = { displayObject = display.newRect(-50, 480, 30, 50) },
+    down  = { displayObject = display.newRect(-50, 570, 30, 50) },
+    right = { displayObject = display.newRect(-15, 535, 50, 30) },
+    left  = { displayObject = display.newRect(-105, 535, 50, 30) },
+}
+
+--[[ Display the saying ]]
+
+local saying = {
+    font = native.systemFont,
+    x = 100, y = 700,
+    fontSize = 48
+}
+
+function saying:update(newText)
+    if self.displayText == nil then
+        self.displayText = display.newText(newText,
+            self.x, self.y,
+            self.font, self.fontSize)
+    else
+        self.displayText.text = newText
     end
 end
-downRect:addEventListener("touch", downRect)
+saying:update("This is the first saying")
+
+--[[ Display obstacles ]]
+
+local obstacles = {}
+
+obstacles.rock = {
+    saying = "There is no spoon.. or cat",
+}
+obstacles.trashcan = {
+    saying = "Hmm. What was I looking for?"
+}
+obstacles.tree = {
+    saying = "The sky is nice today."
+}
+
+local function putObstacle(obstacle, gridSquare)
+    obstacle.x = gridSquare.x
+    obstacle.y = gridSquare.y
+    obstacle.displayObject = display.newRect(grid.displayGroup,
+        gridSquare.displayObject.x, gridSquare.displayObject.y,
+        gridSquare.displayObject.width, gridSquare.displayObject.height)
+    obstacle.displayObject:setFillColor(0, 0, 0)
+    print(gridSquare.displayObject.x, gridSquare.displayObject.xOrigin)
+end
+
+putObstacle(obstacles.rock, grid[4][1])
+putObstacle(obstacles.tree, grid[6][3])
+
+--[[ Make the robot move when controlled
+
 
 local function pressLeft(event)
     if event.phase == "began" and robot.x - gridSquareSize > gridXBegin then
         robot.x = robot.x - gridSquareSize
     end
 end
-
 leftRect:addEventListener("touch", pressLeft)
+
+]]
