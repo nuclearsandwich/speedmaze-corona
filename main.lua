@@ -91,6 +91,7 @@ function robot:enter(gridSquare)
     local newY = gridSquare.displayObject.y
     if self.displayObject == nil then
         self.displayObject = display.newCircle(grid.displayGroup, newX, newY, self.radius)
+        self.displayObject:setFillColor(200, 40, 40)
     else
         self.displayObject.x = newX
         self.displayObject.y = newY
@@ -133,18 +134,27 @@ end
 saying:update("This is the first saying")
 
 --[[ Display obstacles ]]
-
 local obstacles = {}
+
+function obstacleHasKitten(obstacle)
+    return obstacle.kitten == true
+end
 
 obstacles.rock = {
     saying = "There is no spoon.. or cat",
+    hasKitten = obstacleHasKitten,
 }
+obstacles[0] = obstacles.rock
 obstacles.trashcan = {
-    saying = "Hmm. What was I looking for?"
+    saying = "Hmm. What was I looking for?",
+    hasKitten = obstacleHasKitten,
 }
+obstacles[1] = obstacles.trashcan
 obstacles.tree = {
-    saying = "The sky is nice today."
+    saying = "The sky is nice today.",
+    hasKitten = obstacleHasKitten,
 }
+obstacles[2] = obstacles.tree
 
 local function putObstacle(obstacle, gridSquare)
     obstacle.x = gridSquare.x
@@ -158,15 +168,18 @@ end
 
 putObstacle(obstacles.rock, grid[4][1])
 putObstacle(obstacles.tree, grid[6][3])
+putObstacle(obstacles.trashcan, grid[2][5])
+
+obstacles[math.random(0, 2)].kitten = true
 
 --[[ Make the robot move when controlled ]]
-
-
 local function pressLeft(event)
     if event.phase == "began" then
         local nextSquare = robot.gridSquare:left()
         if robot:canEnter(nextSquare) then
             robot:enter(nextSquare)
+        elseif nextSquare.obstacle:hasKitten() then
+            robotfindskitten()
         else
             saying:update(nextSquare.obstacle.saying)
         end
@@ -178,6 +191,8 @@ local function pressRight(event)
         local nextSquare  = robot.gridSquare:right()
         if robot:canEnter(nextSquare) then
             robot:enter(nextSquare)
+        elseif nextSquare.obstacle:hasKitten() then
+            robotfindskitten()
         else
             saying:update(nextSquare.obstacle.saying)
         end
@@ -189,6 +204,8 @@ local function pressUp(event)
         local nextSquare  = robot.gridSquare:above()
         if robot:canEnter(nextSquare) then
             robot:enter(nextSquare)
+        elseif nextSquare.obstacle:hasKitten() then
+            robotfindskitten()
         else
             saying:update(nextSquare.obstacle.saying)
         end
@@ -200,6 +217,8 @@ local function pressDown(event)
         local nextSquare  = robot.gridSquare:below()
         if robot:canEnter(nextSquare) then
             robot:enter(nextSquare)
+        elseif nextSquare.obstacle:hasKitten() then
+            robotfindskitten()
         else
             saying:update(nextSquare.obstacle.saying)
         end
@@ -209,3 +228,25 @@ controls.left.displayObject:addEventListener("touch", pressLeft)
 controls.right.displayObject:addEventListener("touch", pressRight)
 controls.up.displayObject:addEventListener("touch", pressUp)
 controls.down.displayObject:addEventListener("touch", pressDown)
+
+
+--[[ Robot finds kitten! ]]
+function robotfindskitten()
+    for i = 0, 2 do
+        grid.displayGroup:remove(obstacles[i].displayObject)
+        obstacles[i].displayObject = nil
+    end
+    robot.foundKitten = true
+  
+    
+    display.remove(controls.up.displayObject)
+    controls.up.displayObject = nil
+    display.remove(controls.down.displayObject)
+    controls.down.displayObject = nil
+    display.remove(controls.left.displayObject)
+    controls.left.displayObject = nil
+    display.remove(controls.right.displayObject)
+    controls.right.displayObject = nil
+      robot:enter(grid[5][4])
+    saying:update("Robot finds kitten!")
+end
