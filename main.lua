@@ -1,70 +1,150 @@
------------------------------------------------------------------------------------------
+-- # Robot finds kitten - Corona edition
 --
--- Robot finds kitten - Corona edition
---
------------------------------------------------------------------------------------------
+-- In robot finds kitten (rfk) a robot strikes out to find his lost kitten.
+-- The goal is to travel the map searching obstacles for the kitten.
+
+
+--## The main game function.
+
+-- This function contains the entire code to start and run the game. We put
+-- it all inside a function so that when the player finishes, they can start
+-- over without closing and restarting the game.
 
 function play()
-    --[[ Build the game grid ]]
+
+    -- Gather some information about the current screen.
+
     local screenWidth = display.contentWidth
     local screenHeight = display.contentHeight
+
+    -- We want to make the main map as big as possible, but we need to
+    -- have room for controls on the left side, so we'll portion out one
+    -- sixth (1 / 6) of the screen width for the controller.
     local controllerWidth = screenWidth / 6
+
+    -- We also want to leave a bit of room on the right side so the map doesn't
+    -- touch the edge of the screen.
     local rightMargin = 30
-    
+
+    --### Build the map grid.
+
+    -- Games need a field of play. One type of field is a two-dimensional grid.
+    -- It's like taking graph paper and laying it over a section of your screen
+    -- then you allow your game pieces to move between the grid squares based
+    -- on the rules of the game. Chess and Checkers are board games that work
+    -- this way. The Legend of Zelda (on old Nintendo) is a video game that
+    -- works this way and there are lots of others. Can you think of a few?
+
+    -- We want to make a grid. To do this in Lua we'll use an object. Let's
+    -- start with an empty one.
     local grid = {}
+
+    -- Grids can be described by the number of squares across as well as the
+    -- number of squares up and down. We call the squares from left to right
+    -- "the *x* direction and squares up and down the *y* direction.
     grid.xSquares = 10
     grid.ySquares = 7
-    
-    
+
+    -- The total width of our grid is going to be the width of the screen
+    -- without the space taken up by the controller and without the space we
+    -- decided to leave for our margin.
     grid.totalWidth = screenWidth - controllerWidth - rightMargin
+
+    -- Since we already decided how big our whole grid will be and how many
+    -- squares it will have, we can figure out how big our squares are using
+    -- basic algebra. The size of each square is equal to the width of the whole
+    -- map divided by the width of each square.
     grid.squareSize = grid.totalWidth / grid.xSquares
+
+    -- We're going to start our map at the edge of our controller. The last
+    -- pixel of our controller area is going to be the first pixel of our map
+    -- grid.
     grid.xStart = controllerWidth
-    grid.xEnd = grid.xStart + grid.squareSize * grid.xSquares
+
+    -- Just like we wanted to leave a bit of room along the right edge, we want
+    -- to leave some room on top of the screen. I found this to be a good
+    -- size but you can change it if you want.
     grid.yStart = 60
-    grid.xEnd = grid.yStart + grid.squareSize * grid.ySquares
+
+    -- Lastly, we want to create a group for all the grid tiles and objects on
+    -- our map so we can move them around all at once. This is going to help us
+    -- with positioning elements on screen later on.
     grid.displayGroup = display.newGroup()
-    
-    
-    --[[ Fill a background for the grid area. ]]
-    grid.area = display.newRoundedRect(grid.displayGroup, 0, 0,
-        grid.xSquares * grid.squareSize, grid.ySquares * grid.squareSize, 50)
-    grid.area:setFillColor(218, 218, 218)
+
+    -- The map is going to be shown on screen with its (0, 0) being the
+    -- (xStart, yStart) of the total screen.
     grid.displayGroup.x = grid.xStart
     grid.displayGroup.y = grid.yStart
-    
-    local function leftGrid(gridSquare)
+
+    -- So our players can see how big the map is, we want to fill the map area
+    -- with a background. We'll use a rounded rectangle. It's a rectangular
+    -- shape with the corners rounded off so they're not as sharp. Just like
+    -- rounded edges make things easier to sit on, they also make things easier
+    -- to look at.
+    --
+    -- The rectangle belongs to our grid's display group and it starts at the
+    -- origin or (0, 0), which in computer grids is usually the top left corner
+    -- of the grid.
+    --
+    -- The width of the map is equal to the number of squares in the *x*
+    -- direction times the size of one square. The height is similarly the
+    -- number of squares in the *y* direction times the size of one square.
+    grid.area = display.newRoundedRect(grid.displayGroup, 0, 0, grid.xSquares *
+    grid.squareSize, grid.ySquares * grid.squareSize, 50)
+
+    -- Let's make the grid a bright grey color so it's easy to see.
+    grid.area:setFillColor(218, 218, 218)
+
+    --### Grid functions
+
+    -- These functions will be placed on our grid squares. They'll help us find
+    -- adjacent squares when we need them.
+		grid.functions = {
+			-- This function looks for the square to the left of the current one. If
+      -- this square's *x* coordinate is 0, that means it must be the leftmost
+      -- square in that row, so we just say that the square to the left of this
+      -- one is the same as this one. Otherwise, we find the square in this same
+      -- row whose *x* coordinate is one less than our current square.
+      left = function(gridSquare)
         if gridSquare.x == 0 then
-            return gridSquare
+          return gridSquare
         else
-            return grid[gridSquare.x - 1][gridSquare.y]
+          return grid[gridSquare.x - 1][gridSquare.y]
         end
-    end
-    
-    local function rightGrid(gridSquare)
+      end,
+
+      -- When trying to find the square to the right, we need to watch out for
+      -- the rightmost square. Since we started counting squares at 0, the
+      -- rightmost square's *x* coordinate will be one less than the number of
+      -- grid squares in the *x* direction. So if the next square would be equal
+      -- to that number, we're at the end, and we give back the same square we
+      -- got, just like before otherwise, we return the square whose *x*
+      -- coordinate is one more than our current square.
+      right = function(gridSquare)
         if gridSquare.x + 1 == grid.xSquares then
-            return gridSquare
+          return gridSquare
         else
-            return grid[gridSquare.x + 1][gridSquare.y]
+          return grid[gridSquare.x + 1][gridSquare.y]
         end
-    end
-    
-    local function aboveGrid(gridSquare)
+      end,
+
+      up = function(gridSquare)
         if gridSquare.y == 0 then
-            return gridSquare
+          return gridSquare
         else
-            return grid[gridSquare.x][gridSquare.y - 1]
+          return grid[gridSquare.x][gridSquare.y - 1]
         end
-    end
-    
-    local function belowGrid(gridSquare)
+      end,
+
+      down = function(gridSquare)
         if gridSquare.y + 1 == grid.ySquares then
-            return gridSquare
+          return gridSquare
         else
-            return grid[gridSquare.x][gridSquare.y + 1]
+          return grid[gridSquare.x][gridSquare.y + 1]
         end
-    end
-    
-    
+      end,
+    }
+
     for x = 0, 9 do
         grid[x] = {x = x} -- Create grid row table.
     
@@ -76,10 +156,10 @@ function play()
     
             rect:setFillColor(0, 0, 0, 0)
             grid[x][y].displayObject = rect
-            grid[x][y].left = leftGrid
-            grid[x][y].right = rightGrid
-            grid[x][y].above = aboveGrid
-            grid[x][y].below = belowGrid
+            grid[x][y].left = grid.functions.left
+            grid[x][y].right = grid.functions.right
+            grid[x][y].above = grid.functions.up
+            grid[x][y].below = grid.functions.down
         end
     end
     
