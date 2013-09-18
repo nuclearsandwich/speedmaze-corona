@@ -5,18 +5,19 @@
 -----------------------------------------------------------------------------------------
 
 -- 1. build the game grid
-local screenWidth = display.actualContentWidth
-local screenHeight = display.actualContentHeight
-local controllerWidth = screenWidth / 10
+local screenWidth = display.contentWidth
+local screenHeight = display.contentHeight
+local controllerWidth = screenWidth / 6
+local rightMargin = 30
 
 local grid = {}
 grid.xSquares = 10
-grid.ySquares = 6
-grid.squareSize = 100
+grid.ySquares = 7
 
-grid.totalWidth = screenWidth - controllerWidth
 
-grid.xStart = screenWidth / 10
+grid.totalWidth = screenWidth - controllerWidth - rightMargin
+grid.squareSize = grid.totalWidth / grid.xSquares
+grid.xStart = controllerWidth
 grid.xEnd = grid.xStart + grid.squareSize * grid.xSquares
 grid.yStart = 60
 grid.xEnd = grid.yStart + grid.squareSize * grid.ySquares
@@ -24,8 +25,8 @@ grid.displayGroup = display.newGroup()
 
 
 --[[ Fill a background for the grid area. ]]
-grid.area = display.newRect(grid.displayGroup, 0, 0,
-	grid.xSquares * grid.squareSize, grid.ySquares * grid.squareSize)
+grid.area = display.newRoundedRect(grid.displayGroup, 0, 0,
+	grid.xSquares * grid.squareSize, grid.ySquares * grid.squareSize, 50)
 grid.area:setFillColor(218, 218, 218)
 grid.displayGroup.x = grid.xStart
 grid.displayGroup.y = grid.yStart
@@ -82,23 +83,25 @@ for x = 0, 9 do
 end
 
 
---[[ Create the robot ]]
-robot = {}
-robot.radius = grid.squareSize / 2
+--[[ Create the robot and kitten ]]
+local robot = {}
+local kitten = {}
 
 function robot:enter(gridSquare)
-    local newX = gridSquare.displayObject.x - 100
-    local newY = gridSquare.displayObject.y - 100
+    local newX = gridSquare.displayObject.x
+    local newY = gridSquare.displayObject.y
     if self.displayObject == nil then
-        self.displayObject = display.newImage(grid.displayGroup, "robot.png", newX, newY)
-        self.displayObject:setReferencePoint(display.TopLeftReferencePoint)
-        self.displayObject.width = 100
-        self.displayObject.height = 100
+        self.displayObject = display.newImageRect(grid.displayGroup,
+            "robot.png", grid.squareSize, grid.squareSize)
+        self.displayObject.x = newX
+        self.displayObject.y = newY
     else
         self.displayObject.x = newX
         self.displayObject.y = newY
     end
-    robot.gridSquare = gridSquare
+    self.gridSquare = gridSquare
+    self.x = gridSquare.x
+    self.y = gridSquare.y
 end
 
 function robot:canEnter(gridSquare)
@@ -109,12 +112,42 @@ robot:enter(grid[0][0]) -- Put the robot in the first square.
 
 
 --[[ Display controls ]]
+local controlCenterX = controllerWidth / 2
+local controlCenterY = screenHeight - screenHeight / 5
+local controlCenterRadius = controllerWidth / 2 - rightMargin
+local circlePad = display.newCircle(controlCenterX, controlCenterY, controlCenterRadius)
+circlePad:setFillColor(128, 128, 128)
+local upDownWidth = 27
+local upDownHeight = 60
+local leftRightWidth = 60
+local leftRightHeight = 27
+
 local controls = {
-    up    = { displayObject = display.newRect(-50, 480, 30, 50) },
-    down  = { displayObject = display.newRect(-50, 570, 30, 50) },
-    right = { displayObject = display.newRect(-15, 535, 50, 30) },
-    left  = { displayObject = display.newRect(-105, 535, 50, 30) },
+    up    = {},
+    down  = {},
+    right = {},
+    left  = {},
 }
+
+local up = display.newImageRect("arrow_up.png", upDownWidth, upDownHeight)
+up.x = controlCenterX
+up.y = controlCenterY - upDownHeight / 2
+controls.up.displayObject = up
+
+local down = display.newImageRect("arrow_down.png", upDownWidth, upDownHeight)
+down.x = controlCenterX
+down.y = controlCenterY + upDownHeight / 2
+controls.down.displayObject = down
+
+local right = display.newImageRect("arrow_right.png", leftRightWidth, leftRightHeight)
+right.x = controlCenterX + leftRightWidth / 2
+right.y = controlCenterY
+controls.right.displayObject = right
+
+local left = display.newImageRect("arrow_left.png", leftRightWidth, leftRightHeight)
+left.x = controlCenterX - leftRightWidth / 2
+left.y = controlCenterY
+controls.left.displayObject = left
 
 --[[ Display the saying ]]
 
@@ -154,25 +187,25 @@ obstacles.trashcan = {
     hasKitten = obstacleHasKitten,
 }
 obstacles[1] = obstacles.trashcan
-obstacles.tree = {
-    image = "tree.png",
+obstacles.bush = {
+    image = "bush.png",
     saying = "The sky is nice today.",
     hasKitten = obstacleHasKitten,
 }
-obstacles[2] = obstacles.tree
+obstacles[2] = obstacles.bush
 
 local function putObstacle(obstacle, gridSquare)
     obstacle.x = gridSquare.x
     obstacle.y = gridSquare.y
-    obstacle.displayObject = display.newRect(grid.displayGroup,
-        gridSquare.x * grid.squareSize, gridSquare.y * grid.squareSize,
+    obstacle.displayObject = display.newImageRect(grid.displayGroup, obstacle.image,
         grid.squareSize, grid.squareSize)
-    obstacle.displayObject:setFillColor(0, 0, 0)
+    obstacle.displayObject.x = gridSquare.displayObject.x
+    obstacle.displayObject.y = gridSquare.displayObject.y
     gridSquare.obstacle = obstacle
 end
 
 putObstacle(obstacles.rock, grid[4][1])
-putObstacle(obstacles.tree, grid[6][3])
+putObstacle(obstacles.bush, grid[6][3])
 putObstacle(obstacles.trashcan, grid[2][5])
 
 obstacles[math.random(0, 2)].kitten = true
@@ -236,18 +269,22 @@ controls.down.displayObject:addEventListener("touch", pressDown)
 
 
 --[[ Robot finds kitten! ]]
+
+local function animatedReunion()
+    robot:enter(grid[robot.x + 1][robot.y])
+    kitten:enter(grid[kitten.x - 1][kitten.y])
+end
+
 function robotfindskitten()
     for i = 0, 2 do
         grid.displayGroup:remove(obstacles[i].displayObject)
         obstacles[i].displayObject = nil
     end
     robot.foundKitten = true
-    local kitten = { displayObject = display.newImage(grid.displayGroup, "kitten.png") }
+    kitten.displayObject = display.newImageRect(grid.displayGroup, "kitten.png",
+        grid.squareSize, grid.squareSize)
     kitten.enter = robot.enter
-    kitten.displayObject:setReferencePoint(display.TopLeftReferencePoint)
-    kitten.displayObject.width = 100
-    kitten.displayObject.height = 100
-    kitten:enter(grid[5][4])
+    kitten:enter(grid[9][4])
     
     display.remove(controls.up.displayObject)
     controls.up.displayObject = nil
@@ -257,6 +294,8 @@ function robotfindskitten()
     controls.left.displayObject = nil
     display.remove(controls.right.displayObject)
     controls.right.displayObject = nil
-    robot:enter(grid[4][4])
+    robot:enter(grid[0][4])
     saying:update("Robot finds kitten!")
+    timer.performWithDelay(1000, animatedReunion, 4)
 end
+
