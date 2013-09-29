@@ -72,8 +72,8 @@ over without closing and restarting the game.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    <span class="keyword">local</span> screenWidth = display.contentWidth
-    <span class="keyword">local</span> screenHeight = display.contentHeight</pre></div></div>
+	<span class="keyword">local</span> screenWidth = display.contentWidth
+	<span class="keyword">local</span> screenHeight = display.contentHeight</pre></div></div>
             
         </li>
         
@@ -90,7 +90,7 @@ sixth (1 / 6) of the screen width for the controller.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> controllerWidth = screenWidth / <span class="number">6</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> controllerWidth = screenWidth / <span class="number">6</span></pre></div></div>
             
         </li>
         
@@ -106,7 +106,7 @@ touch the edge of the screen.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> rightMargin = <span class="number">30</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> rightMargin = <span class="number">30</span></pre></div></div>
             
         </li>
         
@@ -153,7 +153,7 @@ start with an empty one.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> grid = {}</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> grid = {}</pre></div></div>
             
         </li>
         
@@ -170,8 +170,8 @@ number of squares up and down. We call the squares from left to right
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.xSquares = <span class="number">10</span>
-    grid.ySquares = <span class="number">7</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.xSquares = <span class="number">10</span>
+	grid.ySquares = <span class="number">7</span></pre></div></div>
             
         </li>
         
@@ -188,7 +188,7 @@ decided to leave for our margin.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.totalWidth = screenWidth - controllerWidth - rightMargin</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.totalWidth = screenWidth - controllerWidth - rightMargin</pre></div></div>
             
         </li>
         
@@ -206,7 +206,7 @@ map divided by the width of each square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.squareSize = grid.totalWidth / grid.xSquares</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.squareSize = grid.totalWidth / grid.xSquares</pre></div></div>
             
         </li>
         
@@ -223,7 +223,7 @@ grid.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.xStart = controllerWidth</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.xStart = controllerWidth</pre></div></div>
             
         </li>
         
@@ -240,7 +240,7 @@ size but you can change it if you want.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.yStart = <span class="number">60</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.yStart = <span class="number">60</span></pre></div></div>
             
         </li>
         
@@ -257,7 +257,7 @@ with positioning elements on screen later on.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.displayGroup = display.newGroup()</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.displayGroup = display.newGroup()</pre></div></div>
             
         </li>
         
@@ -273,8 +273,8 @@ with positioning elements on screen later on.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.displayGroup.x = grid.xStart
-    grid.displayGroup.y = grid.yStart</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.displayGroup.x = grid.xStart
+	grid.displayGroup.y = grid.yStart</pre></div></div>
             
         </li>
         
@@ -299,8 +299,8 @@ number of squares in the <em>y</em> direction times the size of one square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.area = display.newRoundedRect(grid.displayGroup, <span class="number">0</span>, <span class="number">0</span>, grid.xSquares *
-    grid.squareSize, grid.ySquares * grid.squareSize, <span class="number">50</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.area = display.newRoundedRect(grid.displayGroup, <span class="number">0</span>, <span class="number">0</span>, grid.xSquares *
+	grid.squareSize, grid.ySquares * grid.squareSize, <span class="number">50</span>)</pre></div></div>
             
         </li>
         
@@ -315,7 +315,7 @@ number of squares in the <em>y</em> direction times the size of one square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    grid.area:setFillColor(<span class="number">218</span>, <span class="number">218</span>, <span class="number">218</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.area:setFillColor(<span class="number">218</span>, <span class="number">218</span>, <span class="number">218</span>)</pre></div></div>
             
         </li>
         
@@ -344,7 +344,7 @@ adjacent squares when we need them.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>		grid.functions = {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	grid.functions = {</pre></div></div>
             
         </li>
         
@@ -363,13 +363,13 @@ row whose <em>x</em> coordinate is one less than our current square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      left = function(gridSquare)
-        <span class="keyword">if</span> gridSquare.x == <span class="number">0</span> <span class="keyword">then</span>
-          <span class="keyword">return</span> gridSquare
-        <span class="keyword">else</span>
-          <span class="keyword">return</span> grid[gridSquare.x - <span class="number">1</span>][gridSquare.y]
-        <span class="keyword">end</span>
-      <span class="keyword">end</span>,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>		left = function(gridSquare)
+			<span class="keyword">if</span> gridSquare.x == <span class="number">0</span> <span class="keyword">then</span>
+				<span class="keyword">return</span> gridSquare
+			<span class="keyword">else</span>
+				<span class="keyword">return</span> grid[gridSquare.x - <span class="number">1</span>][gridSquare.y]
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>,</pre></div></div>
             
         </li>
         
@@ -390,48 +390,13 @@ coordinate is one more than our current square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      right = function(gridSquare)
-        <span class="keyword">if</span> gridSquare.x + <span class="number">1</span> == grid.xSquares <span class="keyword">then</span>
-          <span class="keyword">return</span> gridSquare
-        <span class="keyword">else</span>
-          <span class="keyword">return</span> grid[gridSquare.x + <span class="number">1</span>][gridSquare.y]
-        <span class="keyword">end</span>
-      <span class="keyword">end</span>,
-
-      up = function(gridSquare)
-        <span class="keyword">if</span> gridSquare.y == <span class="number">0</span> <span class="keyword">then</span>
-          <span class="keyword">return</span> gridSquare
-        <span class="keyword">else</span>
-          <span class="keyword">return</span> grid[gridSquare.x][gridSquare.y - <span class="number">1</span>]
-        <span class="keyword">end</span>
-      <span class="keyword">end</span>,
-
-      down = function(gridSquare)
-        <span class="keyword">if</span> gridSquare.y + <span class="number">1</span> == grid.ySquares <span class="keyword">then</span>
-          <span class="keyword">return</span> gridSquare
-        <span class="keyword">else</span>
-          <span class="keyword">return</span> grid[gridSquare.x][gridSquare.y + <span class="number">1</span>]
-        <span class="keyword">end</span>
-      <span class="keyword">end</span>,
-    }
-
-    <span class="keyword">for</span> x = <span class="number">0</span>, <span class="number">9</span> <span class="keyword">do</span>
-        grid[x] = {x = x} <span class="comment">-- Create grid row table.</span>
-    
-        <span class="keyword">for</span> y = <span class="number">0</span>, <span class="number">5</span> <span class="keyword">do</span>
-            grid[x][y] = {x = x, y = y} <span class="comment">-- Create grid element.</span>
-            <span class="keyword">local</span> rect = display.newRect(grid.displayGroup,
-                grid.squareSize * x, grid.squareSize * y,
-                grid.squareSize, grid.squareSize)
-    
-            rect:setFillColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)
-            grid[x][y].displayObject = rect
-            grid[x][y].left = grid.functions.left
-            grid[x][y].right = grid.functions.right
-            grid[x][y].above = grid.functions.up
-            grid[x][y].below = grid.functions.down
-        <span class="keyword">end</span>
-    <span class="keyword">end</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>		right = function(gridSquare)
+			<span class="keyword">if</span> gridSquare.x + <span class="number">1</span> == grid.xSquares <span class="keyword">then</span>
+				<span class="keyword">return</span> gridSquare
+			<span class="keyword">else</span>
+				<span class="keyword">return</span> grid[gridSquare.x + <span class="number">1</span>][gridSquare.y]
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>,</pre></div></div>
             
         </li>
         
@@ -442,35 +407,19 @@ coordinate is one more than our current square.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <p>[[ Create the robot and kitten ]]</p>
+              <p>If we‘re looking for the square above our current one. If we’re in
+the top row, that means we give back this square, otherwise we take
+the square whose <em>y</em> coordinate is one less than the current square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> robot = {}
-    <span class="keyword">local</span> kitten = {}
-    
-    <span class="function"><span class="keyword">function</span> <span class="title">robot:enter</span><span class="params">(gridSquare)</span></span>
-        <span class="keyword">local</span> newX = gridSquare.displayObject.x
-        <span class="keyword">local</span> newY = gridSquare.displayObject.y
-        <span class="keyword">if</span> self.displayObject == <span class="keyword">nil</span> <span class="keyword">then</span>
-            self.displayObject = display.newImageRect(grid.displayGroup,
-                <span class="string">"robot.png"</span>, grid.squareSize, grid.squareSize)
-            self.displayObject.x = newX
-            self.displayObject.y = newY
-        <span class="keyword">else</span>
-            self.displayObject.x = newX
-            self.displayObject.y = newY
-        <span class="keyword">end</span>
-        self.gridSquare = gridSquare
-        self.x = gridSquare.x
-        self.y = gridSquare.y
-    <span class="keyword">end</span>
-    
-    <span class="function"><span class="keyword">function</span> <span class="title">robot:canEnter</span><span class="params">(gridSquare)</span></span>
-        <span class="keyword">return</span> gridSquare.obstacle == <span class="keyword">nil</span>
-    <span class="keyword">end</span>
-    
-    robot:enter(grid[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment">-- Put the robot in the first square.</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>		above = function(gridSquare)
+			<span class="keyword">if</span> gridSquare.y == <span class="number">0</span> <span class="keyword">then</span>
+				<span class="keyword">return</span> gridSquare
+			<span class="keyword">else</span>
+				<span class="keyword">return</span> grid[gridSquare.x][gridSquare.y - <span class="number">1</span>]
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>,</pre></div></div>
             
         </li>
         
@@ -481,46 +430,20 @@ coordinate is one more than our current square.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
-              <p>[[ Display controls ]]</p>
+              <p>Just one more! To find the square below, we add one to the <em>y</em>
+coordinate. Unless of course we&#39;re in the last row, in which case we
+return the given square.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> controlCenterX = controllerWidth / <span class="number">2</span>
-    <span class="keyword">local</span> controlCenterY = screenHeight - screenHeight / <span class="number">5</span>
-    <span class="keyword">local</span> controlCenterRadius = controllerWidth / <span class="number">2</span> - rightMargin
-    <span class="keyword">local</span> circlePad = display.newCircle(controlCenterX, controlCenterY, controlCenterRadius)
-    circlePad:setFillColor(<span class="number">128</span>, <span class="number">128</span>, <span class="number">128</span>)
-    <span class="keyword">local</span> upDownWidth = <span class="number">27</span>
-    <span class="keyword">local</span> upDownHeight = <span class="number">60</span>
-    <span class="keyword">local</span> leftRightWidth = <span class="number">60</span>
-    <span class="keyword">local</span> leftRightHeight = <span class="number">27</span>
-    
-    <span class="keyword">local</span> controls = {
-        up    = {},
-        down  = {},
-        right = {},
-        left  = {},
-    }
-    
-    <span class="keyword">local</span> up = display.newImageRect(<span class="string">"arrow_up.png"</span>, upDownWidth, upDownHeight)
-    up.x = controlCenterX
-    up.y = controlCenterY - upDownHeight / <span class="number">2</span>
-    controls.up.displayObject = up
-    
-    <span class="keyword">local</span> down = display.newImageRect(<span class="string">"arrow_down.png"</span>, upDownWidth, upDownHeight)
-    down.x = controlCenterX
-    down.y = controlCenterY + upDownHeight / <span class="number">2</span>
-    controls.down.displayObject = down
-    
-    <span class="keyword">local</span> right = display.newImageRect(<span class="string">"arrow_right.png"</span>, leftRightWidth, leftRightHeight)
-    right.x = controlCenterX + leftRightWidth / <span class="number">2</span>
-    right.y = controlCenterY
-    controls.right.displayObject = right
-    
-    <span class="keyword">local</span> left = display.newImageRect(<span class="string">"arrow_left.png"</span>, leftRightWidth, leftRightHeight)
-    left.x = controlCenterX - leftRightWidth / <span class="number">2</span>
-    left.y = controlCenterY
-    controls.left.displayObject = left</pre></div></div>
+            <div class="content"><div class='highlight'><pre>		below = function(gridSquare)
+			<span class="keyword">if</span> gridSquare.y + <span class="number">1</span> == grid.ySquares <span class="keyword">then</span>
+				<span class="keyword">return</span> gridSquare
+			<span class="keyword">else</span>
+				<span class="keyword">return</span> grid[gridSquare.x][gridSquare.y + <span class="number">1</span>]
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>,
+	}</pre></div></div>
             
         </li>
         
@@ -528,30 +451,12 @@ coordinate is one more than our current square.</p>
         <li id="section-25">
             <div class="annotation">
               
-              <div class="pilwrap ">
+              <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
-              <p>[[ Display the saying ]]</p>
+              <h2>Setting up the map grid.</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    
-    <span class="keyword">local</span> saying = {
-        font = native.systemFont,
-        x = <span class="number">100</span>, y = <span class="number">700</span>,
-        fontSize = <span class="number">48</span>
-    }
-    
-    <span class="function"><span class="keyword">function</span> <span class="title">saying:update</span><span class="params">(newText)</span></span>
-        <span class="keyword">if</span> self.displayText == <span class="keyword">nil</span> <span class="keyword">then</span>
-            self.displayText = display.newText(newText,
-                self.x, self.y,
-                self.font, self.fontSize)
-        <span class="keyword">else</span>
-            self.displayText.text = newText
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    saying:update(<span class="string">"Where is the kitten?"</span>)</pre></div></div>
             
         </li>
         
@@ -562,50 +467,13 @@ coordinate is one more than our current square.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
-              <p>[[ Display obstacles ]]</p>
+              <p>In order to set up a grid, we&#39;ll loops to avoid repeating out similar code
+for each of the grid squares. Because we have <em>x</em> coordinates and <em>y</em>
+coordinates we&#39;ll use nested loops. One within another. This means that
+each time we change the <em>x</em> coordinate we&#39;ll go through a whole column of
+<em>y</em> values, then start a new column.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> obstacles = {}
-    
-    <span class="function"><span class="keyword">function</span> <span class="title">obstacleHasKitten</span><span class="params">(obstacle)</span></span>
-        <span class="keyword">return</span> obstacle.kitten == <span class="keyword">true</span>
-    <span class="keyword">end</span>
-    
-    obstacles.rock = {
-        image = <span class="string">"rock.png"</span>,
-        saying = <span class="string">"There is no spoon.. or cat"</span>,
-        hasKitten = obstacleHasKitten,
-    }
-    obstacles[<span class="number">0</span>] = obstacles.rock
-    obstacles.trashcan = {
-        image = <span class="string">"trash.png"</span>,
-        saying = <span class="string">"Hmm. What was I looking for?"</span>,
-        hasKitten = obstacleHasKitten,
-    }
-    obstacles[<span class="number">1</span>] = obstacles.trashcan
-    obstacles.bush = {
-        image = <span class="string">"bush.png"</span>,
-        saying = <span class="string">"The sky is nice today."</span>,
-        hasKitten = obstacleHasKitten,
-    }
-    obstacles[<span class="number">2</span>] = obstacles.bush
-    
-    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">putObstacle</span><span class="params">(obstacle, gridSquare)</span></span>
-        obstacle.x = gridSquare.x
-        obstacle.y = gridSquare.y
-        obstacle.displayObject = display.newImageRect(grid.displayGroup, obstacle.image,
-            grid.squareSize, grid.squareSize)
-        obstacle.displayObject.x = gridSquare.displayObject.x
-        obstacle.displayObject.y = gridSquare.displayObject.y
-        gridSquare.obstacle = obstacle
-    <span class="keyword">end</span>
-    
-    putObstacle(obstacles.rock, grid[<span class="number">4</span>][<span class="number">1</span>])
-    putObstacle(obstacles.bush, grid[<span class="number">6</span>][<span class="number">3</span>])
-    putObstacle(obstacles.trashcan, grid[<span class="number">2</span>][<span class="number">5</span>])
-    
-    obstacles[<span class="built_in">math</span>.random(<span class="number">0</span>, <span class="number">2</span>)].kitten = <span class="keyword">true</span></pre></div></div>
             
         </li>
         
@@ -616,65 +484,12 @@ coordinate is one more than our current square.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
-              <p>[[ Make the robot move when controlled ]]</p>
+              <p>This loop will count x coordinates from 0 to 9. How many columns will
+that create?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressLeft</span><span class="params">(event)</span></span>
-        <span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
-            <span class="keyword">local</span> nextSquare = robot.gridSquare:left()
-            <span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
-                robot:enter(nextSquare)
-            <span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
-                robotfindskitten()
-            <span class="keyword">else</span>
-                saying:update(nextSquare.obstacle.saying)
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    
-    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressRight</span><span class="params">(event)</span></span>
-        <span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
-            <span class="keyword">local</span> nextSquare  = robot.gridSquare:right()
-            <span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
-                robot:enter(nextSquare)
-            <span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
-                robotfindskitten()
-            <span class="keyword">else</span>
-                saying:update(nextSquare.obstacle.saying)
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    
-    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressUp</span><span class="params">(event)</span></span>
-        <span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
-            <span class="keyword">local</span> nextSquare  = robot.gridSquare:above()
-            <span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
-                robot:enter(nextSquare)
-            <span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
-                robotfindskitten()
-            <span class="keyword">else</span>
-                saying:update(nextSquare.obstacle.saying)
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    
-    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressDown</span><span class="params">(event)</span></span>
-        <span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
-            <span class="keyword">local</span> nextSquare  = robot.gridSquare:below()
-            <span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
-                robot:enter(nextSquare)
-            <span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
-                robotfindskitten()
-            <span class="keyword">else</span>
-                saying:update(nextSquare.obstacle.saying)
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    controls.left.displayObject:addEventListener(<span class="string">"touch"</span>, pressLeft)
-    controls.right.displayObject:addEventListener(<span class="string">"touch"</span>, pressRight)
-    controls.up.displayObject:addEventListener(<span class="string">"touch"</span>, pressUp)
-    controls.down.displayObject:addEventListener(<span class="string">"touch"</span>, pressDown)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">for</span> x = <span class="number">0</span>, <span class="number">9</span> <span class="keyword">do</span></pre></div></div>
             
         </li>
         
@@ -685,65 +500,1255 @@ coordinate is one more than our current square.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
-              <p>[[ Robot finds kitten! ]]</p>
+              <p>The first thing we do is create a column for this coordinate.
+We use <code>[]</code> to “index” the column with its coordinate and set the
+x field for this column to be the <em>x</em> coordinate value.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    
-    <span class="function"><span class="keyword">function</span> <span class="title">animatedReunion</span><span class="params">()</span></span>
-        robot:enter(grid[robot.x + <span class="number">1</span>][robot.y])
-        kitten:enter(grid[kitten.x - <span class="number">1</span>][kitten.y])
-    <span class="keyword">end</span>
-    
-    <span class="keyword">local</span> playAgainButton
-    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">showPlayAgain</span><span class="params">()</span></span>
-        <span class="keyword">local</span> playAgainButton = display.newCircle(controlCenterX, controlCenterY, controlCenterRadius)
-        playAgainButton.strokeWidth = <span class="number">6</span>
-        playAgainButton:setStrokeColor(<span class="number">244</span>, <span class="number">244</span>, <span class="number">64</span>)
-        <span class="keyword">local</span> playAgainText = display.newText(<span class="string">"Again"</span>, controlCenterX - controlCenterRadius + <span class="number">20</span>,
-            controlCenterY - <span class="number">18</span>, native.systemFont, <span class="number">24</span>)
-        playAgainText:setTextColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)
-
-        <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">playAgainButtonActivate</span><span class="params">(event)</span></span>
-            <span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
-                display.remove(playAgainButton)
-                display.remove(playAgainText)
-                playAgainButton = <span class="keyword">nil</span>
-                playAgainText = <span class="keyword">nil</span>
-                play()
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-        playAgainButton:addEventListener(<span class="string">"touch"</span>, playAgainButtonActivate)
-    <span class="keyword">end</span>
-    
-    <span class="function"><span class="keyword">function</span> <span class="title">robotfindskitten</span><span class="params">()</span></span>
-        <span class="keyword">for</span> i = <span class="number">0</span>, <span class="number">2</span> <span class="keyword">do</span>
-            grid.displayGroup:remove(obstacles[i].displayObject)
-            obstacles[i].displayObject = <span class="keyword">nil</span>
-        <span class="keyword">end</span>
-        robot.foundKitten = <span class="keyword">true</span>
-        kitten.displayObject = display.newImageRect(grid.displayGroup, <span class="string">"kitten.png"</span>,
-            grid.squareSize, grid.squareSize)
-        kitten.enter = robot.enter
-        kitten:enter(grid[<span class="number">9</span>][<span class="number">4</span>])
+            <div class="content"><div class='highlight'><pre>		grid[x] = {x = x}</pre></div></div>
+            
+        </li>
         
-        display.remove(circlePad)
-        circlePad = <span class="keyword">nil</span>
-        display.remove(controls.up.displayObject)
-        controls.up.displayObject = <span class="keyword">nil</span>
-        display.remove(controls.down.displayObject)
-        controls.down.displayObject = <span class="keyword">nil</span>
-        display.remove(controls.left.displayObject)
-        controls.left.displayObject = <span class="keyword">nil</span>
-        display.remove(controls.right.displayObject)
-        controls.right.displayObject = <span class="keyword">nil</span>
-        robot:enter(grid[<span class="number">0</span>][<span class="number">4</span>])
-        display.remove(saying.displayText)
-        saying.displayText = <span class="keyword">nil</span>
-        timer.performWithDelay(<span class="number">1000</span>, animatedReunion, <span class="number">4</span>)
-        timer.performWithDelay(<span class="number">4000</span>, showPlayAgain, <span class="number">1</span>)
-    <span class="keyword">end</span>
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Now that we‘ve set up our column it’s time to make our way down the
+<em>y</em> values starting from 0 and going to 5. How many rows will this
+create?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">for</span> y = <span class="number">0</span>, <span class="number">5</span> <span class="keyword">do</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>For each grid square, we&#39;ll set it up to be indexed first by
+its <em>x</em> coordinate and next by its <em>y</em> coordinate. We also
+set the x and y fields of the square to match its coordinates.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			grid[x][y] = {x = x, y = y} <span class="comment">-- Create grid element.</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>Now we create a display object for the rectangle. This is what
+will allow us to actually draw the object on the screen.
+The rectangle is part of the grid&#39;s display group. Just like we
+are creating our own grid system, your computer has a grid system
+made up of individual pixels and the <em>x</em> and <em>y</em> coordinates of
+the display object aren&#39;t our <em>x</em> and <em>y</em> but we&#39;ll use our
+coordinates to compute the pixel coordinates.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>The pixel coordinate of a square will be our coordinate times the
+size in pixels of a single square, then the width and height will
+be that size alone.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			<span class="keyword">local</span> rect = display.newRect(grid.displayGroup,
+			grid.squareSize * x, grid.squareSize * y,
+			grid.squareSize, grid.squareSize)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>We&#39;re going to make our grid invisible. If you want to see where
+it will be, add the lines</p>
+<pre><code class="lang-lua">rect:setStrokeColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.25</span>)
+rect.strokeWidth = <span class="number">5</span></code></pre>
+<p>to the end of this block.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			rect:setFillColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Now that we&#39;ve created our display object, we attach it to our
+grid square.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			grid[x][y].displayObject = rect</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>And finally we attach the functions we wrote earlier to each
+square so it is more convient to call on them later.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>			grid[x][y].left = grid.functions.left
+			grid[x][y].right = grid.functions.right
+			grid[x][y].above = grid.functions.above
+			grid[x][y].below = grid.functions.below</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>The end of one column.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>The end of one row.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <h2>Create the robot and kitten</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>Finally we get to the stars of our game! We‘ll create a robot object
+and a kitten object and give each of them an image field that holds
+the name of the image we’ll use to show them on the screen.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> robot = { image = <span class="string">"robot.png"</span> }
+	<span class="keyword">local</span> kitten = { image = <span class="string">"kitten.png"</span> }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Now we need a function to allow the robot and kitten to move to a
+particular square </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">enter</span><span class="params">(character, gridSquare)</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>The first time we show the character, there won‘t be a display object,
+so we’ll have to create one.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">if</span> character.displayObject == <span class="keyword">nil</span> <span class="keyword">then</span>
+			character.displayObject = display.newImageRect(grid.displayGroup,
+			character.image, grid.squareSize, grid.squareSize)
+		<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Now our character&#39;s display object should be in the same position on
+the screen as the grid square that character is in.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		character.displayObject.x = gridSquare.displayObject.x
+		character.displayObject.y = gridSquare.displayObject.y</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>We&#39;ll keep track of the grid square each character is in. It will come
+in handy when they want to move.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		character.gridSquare = gridSquare</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>we&#39;ll also save the <em>x</em> and <em>y</em> coordinate of the character just like
+the grid square.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		character.x = gridSquare.x
+		character.y = gridSquare.y
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>It&#39;s convenient for us to attach this function directly to each
+character.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	robot.enter = enter
+	kitten.enter = enter</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>The robot can only enter squares that don‘t have obstacles. Even though
+all this method does is check for the presence of an obstacle, we’ll do
+it like this because it controls the actions of the robot.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="function"><span class="keyword">function</span> <span class="title">robot:canEnter</span><span class="params">(gridSquare)</span></span>
+		<span class="keyword">return</span> gridSquare.obstacle == <span class="keyword">nil</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>The robot starts off in the top left square. The kitten starts off
+hidden, so we don&#39;t have it enter any square.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	robot:enter(grid[<span class="number">0</span>][<span class="number">0</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <h2>Creating the controls.</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>Our controls will be composed of an on-screen directional pad, just like
+the one on a video game controller. Pressing the up, down, left, and
+right buttons will move the robot around the map grid </p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>The center of our control pad will be at the halfway point of the control
+area width…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> controlCenterX = controllerWidth / <span class="number">2</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>and one fifth of the way from the bottom of the screen.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> controlCenterY = screenHeight - screenHeight / <span class="number">5</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>The radius of the control pad will be just slightly smaller than half
+the width of the controller area. This will leave a margin on the left
+side, as well as some distance from the map grid.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> controlCenterRadius = controllerWidth / <span class="number">2</span> - rightMargin</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Now create a circle to house our directional pad.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> circlePad = display.newCircle(controlCenterX, controlCenterY, controlCenterRadius)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>Let&#39;s make it stand out from the background.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	circlePad:setFillColor(<span class="number">128</span>, <span class="number">128</span>, <span class="number">128</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>The size of our control buttons. The up and down</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> upDownWidth = <span class="number">27</span>
+	<span class="keyword">local</span> upDownHeight = <span class="number">60</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>The size of the left and right control buttons.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> leftRightWidth = <span class="number">60</span>
+	<span class="keyword">local</span> leftRightHeight = <span class="number">27</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>Container tables for the controls.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> controls = {
+		up    = {},
+		down  = {},
+		right = {},
+		left  = {},
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>Here we create the display objects for the controls and place them on the
+screen inside our control circle. Each one is then assigned to the display
+object field of the control table.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> up = display.newImageRect(<span class="string">"arrow_up.png"</span>, upDownWidth, upDownHeight)
+	up.x = controlCenterX
+	up.y = controlCenterY - upDownHeight / <span class="number">2</span>
+	controls.up.displayObject = up
+
+	<span class="keyword">local</span> down = display.newImageRect(<span class="string">"arrow_down.png"</span>, upDownWidth, upDownHeight)
+	down.x = controlCenterX
+	down.y = controlCenterY + upDownHeight / <span class="number">2</span>
+	controls.down.displayObject = down
+
+	<span class="keyword">local</span> right = display.newImageRect(<span class="string">"arrow_right.png"</span>, leftRightWidth, leftRightHeight)
+	right.x = controlCenterX + leftRightWidth / <span class="number">2</span>
+	right.y = controlCenterY
+	controls.right.displayObject = right
+
+	<span class="keyword">local</span> left = display.newImageRect(<span class="string">"arrow_left.png"</span>, leftRightWidth, leftRightHeight)
+	left.x = controlCenterX - leftRightWidth / <span class="number">2</span>
+	left.y = controlCenterY
+	controls.left.displayObject = left</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <h2>Display the saying</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              <p>This is the saying that appears at the bottom of the screen whenever a
+new obstacle is encountered.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+	<span class="keyword">local</span> saying = {
+		font = native.systemFont,
+		x = <span class="number">100</span>, y = <span class="number">700</span>,
+		fontSize = <span class="number">48</span>
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p>We need a method that allows us update the saying&#39;s text with some new
+text.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="function"><span class="keyword">function</span> <span class="title">saying:update</span><span class="params">(newText)</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <p>If no saying has ever been displayed, we need to create a display
+object for the text.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">if</span> self.displayText == <span class="keyword">nil</span> <span class="keyword">then</span>
+			self.displayText = display.newText(newText,
+			self.x, self.y,
+			self.font, self.fontSize)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <p>Otherwise, we just update the text of the existing display object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">else</span>
+			self.displayText.text = newText
+		<span class="keyword">end</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <p>Now we can set the starting message using the method we just wrote.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	saying:update(<span class="string">"Where is the kitten?"</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-65">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-65">&#182;</a>
+              </div>
+              <h2>Display obstacles</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-66">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-66">&#182;</a>
+              </div>
+              <p>Our kitten needs some obstacles to hide behind. Each obstacle will have
+an image, which is the name of the image file that we&#39;ll use to display
+the obstacle. Each obstacle should also have a saying associated with it
+the sayings can be anything you want but they should make you feel happy
+and thoughtful.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-67">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-67">&#182;</a>
+              </div>
+              <p>We&#39;ll start out with an empty table to put our obstacles in.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> obstacles = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-68">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-68">&#182;</a>
+              </div>
+              <p>This function is going to be used as a method for each of our obstacles.
+It will check if there‘s a kitten hiding behind this obstacle and send
+back true or false. We’ll associate this function with each table as the
+hasKitten method.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">obstacleHasKitten</span><span class="params">(obstacle)</span></span>
+		<span class="keyword">return</span> obstacle.kitten == <span class="keyword">true</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-69">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-69">&#182;</a>
+              </div>
+              <p>This function will be used to place the obstacle on the grid somewhere.
+It will be attached to each obstacle as the put method.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">putObstacle</span><span class="params">(obstacle, gridSquare)</span></span>
+		obstacle.x = gridSquare.x
+		obstacle.y = gridSquare.y
+		obstacle.displayObject = display.newImageRect(grid.displayGroup, obstacle.image,
+		grid.squareSize, grid.squareSize)
+		obstacle.displayObject.x = gridSquare.displayObject.x
+		obstacle.displayObject.y = gridSquare.displayObject.y
+		gridSquare.obstacle = obstacle
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-70">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-70">&#182;</a>
+              </div>
+              <p>One of the obstacles will be a rock.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	obstacles.rock = {
+		image = <span class="string">"rock.png"</span>,
+		saying = <span class="string">"There is no spoon.. or cat"</span>,
+		hasKitten = obstacleHasKitten,
+		put = putObstacle,
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-71">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-71">&#182;</a>
+              </div>
+              <p>In addition to giving each obstacle a name, we&#39;re also going to keep them
+in a list. Remember that you can use tables as lists if you use numbers
+for the field names.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	obstacles[<span class="number">0</span>] = obstacles.rock
+
+	obstacles.trashcan = {
+		image = <span class="string">"trash.png"</span>,
+		saying = <span class="string">"Hmm. What was I looking for?"</span>,
+		hasKitten = obstacleHasKitten,
+		put = putObstacle,
+	}
+	obstacles[<span class="number">1</span>] = obstacles.trashcan
+
+	obstacles.bush = {
+		image = <span class="string">"bush.png"</span>,
+		saying = <span class="string">"The sky is nice today."</span>,
+		hasKitten = obstacleHasKitten,
+		put = putObstacle,
+	}
+	obstacles[<span class="number">2</span>] = obstacles.bush</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-72">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-72">&#182;</a>
+              </div>
+              <p>Now we can put our obstacles on the screen.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	obstacles.rock:put(grid[<span class="number">4</span>][<span class="number">1</span>])
+	obstacles.bush:put(grid[<span class="number">6</span>][<span class="number">3</span>])
+	obstacles.trashcan:put(grid[<span class="number">2</span>][<span class="number">5</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-73">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-73">&#182;</a>
+              </div>
+              <p>Now that our obstacles are all placed, let&#39;s hide the kitten behind a
+different one each time using a random number generator.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	obstacles[<span class="built_in">math</span>.random(<span class="number">0</span>, <span class="number">2</span>)].kitten = <span class="keyword">true</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-74">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-74">&#182;</a>
+              </div>
+              <h2>Make the robot move</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-75">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-75">&#182;</a>
+              </div>
+              <p>Now it‘s time to create functions that will move our robot into new grid
+squares. We’ll define functions for moving left, right, up, and down.
+The function will check that the grid square has no obstacle before 
+moving into it. If the square is free, the robot will move there.
+Otherwise we‘ll see if the kitten is hiding in this obstacle. If there is
+a kitten, then the game is over. If there’s not we just update the saying
+to be whichever one is associated with this obstacle.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-76">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-76">&#182;</a>
+              </div>
+              <p>This function will run when we press the left arrow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressLeft</span><span class="params">(event)</span></span>
+		<span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
+			<span class="keyword">local</span> nextSquare = robot.gridSquare:left()
+			<span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
+				robot:enter(nextSquare)
+			<span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
+				robotfindskitten()
+			<span class="keyword">else</span>
+				saying:update(nextSquare.obstacle.saying)
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-77">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-77">&#182;</a>
+              </div>
+              <p>This function will run when we press the right arrow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressRight</span><span class="params">(event)</span></span>
+		<span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
+			<span class="keyword">local</span> nextSquare  = robot.gridSquare:right()
+			<span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
+				robot:enter(nextSquare)
+			<span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
+				robotfindskitten()
+			<span class="keyword">else</span>
+				saying:update(nextSquare.obstacle.saying)
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-78">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-78">&#182;</a>
+              </div>
+              <p>This function will run when we press the up arrow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressUp</span><span class="params">(event)</span></span>
+		<span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
+			<span class="keyword">local</span> nextSquare  = robot.gridSquare:above()
+			<span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
+				robot:enter(nextSquare)
+			<span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
+				robotfindskitten()
+			<span class="keyword">else</span>
+				saying:update(nextSquare.obstacle.saying)
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-79">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-79">&#182;</a>
+              </div>
+              <p>This function will run when we press the down arrow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">pressDown</span><span class="params">(event)</span></span>
+		<span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
+			<span class="keyword">local</span> nextSquare  = robot.gridSquare:below()
+			<span class="keyword">if</span> robot:canEnter(nextSquare) <span class="keyword">then</span>
+				robot:enter(nextSquare)
+			<span class="keyword">elseif</span> nextSquare.obstacle:hasKitten() <span class="keyword">then</span>
+				robotfindskitten()
+			<span class="keyword">else</span>
+				saying:update(nextSquare.obstacle.saying)
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-80">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-80">&#182;</a>
+              </div>
+              <p>Now we register each function as an event listener for the touch
+event on the display object associated with each arrow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	controls.left.displayObject:addEventListener(<span class="string">"touch"</span>, pressLeft)
+	controls.right.displayObject:addEventListener(<span class="string">"touch"</span>, pressRight)
+	controls.up.displayObject:addEventListener(<span class="string">"touch"</span>, pressUp)
+	controls.down.displayObject:addEventListener(<span class="string">"touch"</span>, pressDown)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-81">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-81">&#182;</a>
+              </div>
+              <h2>Robot finds kitten!</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-82">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-82">&#182;</a>
+              </div>
+              <p>This function will be used to move the robot and kitten together. Each
+time you run it, they get one square closer to eachother.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">animatedReunion</span><span class="params">()</span></span>
+		robot:enter(grid[robot.x + <span class="number">1</span>][robot.y])
+		kitten:enter(grid[kitten.x - <span class="number">1</span>][kitten.y])
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-83">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-83">&#182;</a>
+              </div>
+              <p>We&#39;ll create a button that allows you to play again. It will appear where
+the control arrows used to be.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">showPlayAgain</span><span class="params">()</span></span>
+		<span class="keyword">local</span> playAgainButton = display.newCircle(controlCenterX, controlCenterY, controlCenterRadius)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-84">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-84">&#182;</a>
+              </div>
+              <p>We&#39;ll give the button some color and accent.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		playAgainButton.strokeWidth = <span class="number">6</span>
+		playAgainButton:setStrokeColor(<span class="number">244</span>, <span class="number">244</span>, <span class="number">64</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-85">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-85">&#182;</a>
+              </div>
+              <p>Write what the button does.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">local</span> playAgainText = display.newText(<span class="string">"Again"</span>, controlCenterX - controlCenterRadius + <span class="number">20</span>,
+		controlCenterY - <span class="number">18</span>, native.systemFont, <span class="number">24</span>)
+		playAgainText:setTextColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-86">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-86">&#182;</a>
+              </div>
+              <p>This function will run whenever you hit the play again button. It will
+remove the button from existence and then play the game again.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">playAgainButtonActivate</span><span class="params">(event)</span></span>
+			<span class="keyword">if</span> event.phase == <span class="string">"began"</span> <span class="keyword">then</span>
+				display.remove(playAgainButton)
+				display.remove(playAgainText)
+				playAgainButton = <span class="keyword">nil</span>
+				playAgainText = <span class="keyword">nil</span>
+				play()
+			<span class="keyword">end</span>
+		<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-87">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-87">&#182;</a>
+              </div>
+              <p>We&#39;ll add the activate function as the event listener for the play
+again button.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		playAgainButton:addEventListener(<span class="string">"touch"</span>, playAgainButtonActivate)
+	<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-88">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-88">&#182;</a>
+              </div>
+              <p>This function will run when the game is over.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="function"><span class="keyword">function</span> <span class="title">robotfindskitten</span><span class="params">()</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-89">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-89">&#182;</a>
+              </div>
+              <p>Remove all obstacles.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="keyword">for</span> i = <span class="number">0</span>, <span class="number">2</span> <span class="keyword">do</span>
+			grid.displayGroup:remove(obstacles[i].displayObject)
+			obstacles[i].displayObject = <span class="keyword">nil</span>
+		<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-90">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-90">&#182;</a>
+              </div>
+              <p>Create a display object for the kitten.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		kitten.displayObject = display.newImageRect(grid.displayGroup, <span class="string">"kitten.png"</span>,
+		grid.squareSize, grid.squareSize)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-91">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-91">&#182;</a>
+              </div>
+              <p>Set the enter method for the kitten.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		kitten.enter = robot.enter</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-92">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-92">&#182;</a>
+              </div>
+              <p>Move the robot into the 4th row.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		robot:enter(grid[<span class="number">0</span>][<span class="number">4</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-93">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-93">&#182;</a>
+              </div>
+              <p>Move the kitten onto the grid, across from the robot.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		kitten:enter(grid[<span class="number">9</span>][<span class="number">4</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-94">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-94">&#182;</a>
+              </div>
+              <p>We need to hide all of the controls, so the player can&#39;t interrupt the
+reunion.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		display.remove(circlePad)
+		circlePad = <span class="keyword">nil</span>
+		display.remove(controls.up.displayObject)
+		controls.up.displayObject = <span class="keyword">nil</span>
+		display.remove(controls.down.displayObject)
+		controls.down.displayObject = <span class="keyword">nil</span>
+		display.remove(controls.left.displayObject)
+		controls.left.displayObject = <span class="keyword">nil</span>
+		display.remove(controls.right.displayObject)
+		controls.right.displayObject = <span class="keyword">nil</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-95">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-95">&#182;</a>
+              </div>
+              <p>Remove the saying.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		display.remove(saying.displayText)
+		saying.displayText = <span class="keyword">nil</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-96">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-96">&#182;</a>
+              </div>
+              <p>Now we animate the robot and kitten getting closer and closer until they
+finally reunite.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		timer.performWithDelay(<span class="number">1000</span>, animatedReunion, <span class="number">4</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-97">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-97">&#182;</a>
+              </div>
+              <p>Lastly, we show the play again button after the animation is over.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		timer.performWithDelay(<span class="number">4000</span>, showPlayAgain, <span class="number">1</span>)
+	<span class="keyword">end</span>
 <span class="keyword">end</span>
+
 play()</pre></div></div>
             
         </li>
