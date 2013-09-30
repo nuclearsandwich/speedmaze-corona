@@ -586,4 +586,5 @@ function play()
 	end
 end
 
+-- Play the game!
 play()
