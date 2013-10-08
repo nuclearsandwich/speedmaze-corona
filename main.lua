@@ -356,7 +356,7 @@ controls.show = function(controls)
 	controls.displayGroup.isVisible = true
 end
 
---## Make the runner move
+--### Make the runner move
 
 -- It's time to create functions that will move our runner into new grid
 -- squares. We'll define functions for moving left, right, up, and down.
@@ -485,7 +485,65 @@ playAgainButton.displayGroup:addEventListener("touch", playAgainButton.touch)
 playAgainButton.show = startButton.show
 playAgainButton.hide = startButton.hide
 
---## The main game function.
+-- ## Create the stopwatch
+
+-- We've decided that one way to make this game more fun is to time the user
+-- while they run the maze. To do this, we'll add a stopwatch to the game that
+-- tracks the number of seconds from when when the player hits the start button
+-- until the runner enters the finish square of the maze.
+
+-- Create the stopwatch object.
+local stopwatch = {}
+
+-- The clock starts at 0.
+stopwatch.time = 0.0
+
+-- Create some text that will display the time on the watch.
+stopwatch.displayText = display.newText(stopwatch.time, 100, 700,
+	native.systemFont, 48)
+
+-- This function runs each "tick" of the stopwatch. It will update the displayed
+-- time. Note that this function is *not* a method. We have to name the
+-- stopwatch exactly instead of using the method style with a `watch` as a first
+-- argument. There are ways around this, but they overcomplicate things. Maybe
+-- we'll explore them in the future.
+stopwatch.increment = function(timerData)
+	stopwatch.clock = stopwatch.clock + 1
+	stopwatch.displayText.text = stopwatch.clock
+end
+
+-- Write a method that starts the stopwatch.
+stopwatch.start = function(watch)
+	-- We use the perform with delay library function to have Corona call us
+	-- when the timer runs out. We've set the timer to run ever 1000 milliseconds.
+	-- A millisecond is 1/1000th of a second so if we wait 1000 1/1000ths of a
+	-- second we wait exactly one second. Say that 10 times fast. We tell Corona
+	-- to "call us" by running our watch increment function. The last 0 is the
+	-- argument that tells Corona how many times to re-run the timer. By sending a
+	-- zero we tell Corona to run forever.
+
+	-- Since this function is going to call us when the time runs out. So what
+	-- does it return *right now*? It returns a timer ID number that we can use
+	-- to stop the timer later. We need to save this so we can stop the timer when
+	-- the player's runner crosses the finish line.
+	watch.timer = timer.performWithDelay(1000, watch.increment, 0)
+end
+
+-- Now we need to stop the stopwatch when the runner finishes the maze. We can
+-- do that by cancelling the timer.
+stopwatch.stop = function(watch)
+	timer.cancel(watch.timer)
+end
+
+-- All we have left to do is make sure we can reset the watch. to do so. We just
+-- set the clock back to zero and update the display.
+stopwatch.reset = function(watch)
+	watch.clock = 0
+	watch.displayText.text = watch.clock
+end
+
+
+-- ## The main game function
 
 -- This play function is much simpler than our last game because we took most
 -- of the code out so it only ran once. This means that our game will start
@@ -505,7 +563,7 @@ function play()
 	-- The controls start out hidden because we want the player to call "start"
 	-- first.
 	controls:hide()
-
+	stopwatch:reset()
 	startButton:show()
 end
 
@@ -515,6 +573,7 @@ end
 -- allows the player to start moving the runner.
 function start()
 	controls:show()
+	stopwatch:start()
 end
 
 --## Finish!
@@ -522,6 +581,7 @@ end
 -- Finish the game by hiding the controls and displaying the play again button.
 function finish()
 	controls:hide()
+	stopwatch:stop()
 	playAgainButton:show()
 end
 
