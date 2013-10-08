@@ -1,8 +1,8 @@
--- # Robot finds kitten - Corona edition
---
--- In robot finds kitten (rfk) a robot strikes out to find his lost kitten.
--- The goal is to travel the map searching obstacles for the kitten.
+-- # Speed Maze 
+-- ## Corona SDK Game
 
+-- In this game we'll have a tiny space invader who is trying to quickly
+-- traverse a maze.
 
 --## The main game function.
 
@@ -26,6 +26,38 @@ function play()
 	-- touch the edge of the screen.
 	local rightMargin = 30
 
+	-- ## Set up the maze map
+
+	-- We'll describe our maze using list-style Lua tables. This will let us
+	-- convey a lot of information with less typing. Our maze will be made of
+	-- a grid of pathways and walls. We can choose to use any two different values
+	-- to specify which grid squares have walls, and which have paths. I'm going
+	-- to use `0` for paths and `1` for walls but you could just as easily use
+	-- `"w"` for walls and `"p"` for paths. I use 0 and 1 because it's less to
+	-- type. Each row of the the maze grid is one list and the entire maze is just
+	-- a list of lists.
+	local maze = {
+		{ 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1 },
+		{ 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1 },
+		{ 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1 },
+		{ 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 },
+		{ 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0 },
+		{ 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1 },
+		{ 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1 },
+		{ 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1 },
+		{ 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+	}
+	maze.rows = table.getn(maze)
+	maze.columns = table.getn(maze[1])
+	maze.xStart, maze.yStart = 1, 1
+	maze.xFinish, maze.yFinish = 24, 7
+
+	--###### Alternative Maze storage possibilities
+
+
 	--### Build the map grid.
 
 	-- Games need a field of play. One type of field is a two-dimensional grid.
@@ -42,8 +74,8 @@ function play()
 	-- Grids can be described by the number of squares across as well as the
 	-- number of squares up and down. We call the squares from left to right
 	-- "the *x* direction and squares up and down the *y* direction.
-	grid.xSquares = 10
-	grid.ySquares = 7
+	grid.xSquares = maze.columns
+	grid.ySquares = maze.rows
 
 	-- The total width of our grid is going to be the width of the screen
 	-- without the space taken up by the controller and without the space we
@@ -76,25 +108,6 @@ function play()
 	grid.displayGroup.x = grid.xStart
 	grid.displayGroup.y = grid.yStart
 
-	-- So our players can see how big the map is, we want to fill the map area
-	-- with a background. We'll use a rounded rectangle. It's a rectangular
-	-- shape with the corners rounded off so they're not as sharp. Just like
-	-- rounded edges make things easier to sit on, they also make things easier
-	-- to look at.
-	--
-	-- The rectangle belongs to our grid's display group and it starts at the
-	-- origin or (0, 0), which in computer grids is usually the top left corner
-	-- of the grid.
-	--
-	-- The width of the map is equal to the number of squares in the *x*
-	-- direction times the size of one square. The height is similarly the
-	-- number of squares in the *y* direction times the size of one square.
-	grid.area = display.newRoundedRect(grid.displayGroup, 0, 0, grid.xSquares *
-	grid.squareSize, grid.ySquares * grid.squareSize, 50)
-
-	-- Let's make the grid a bright grey color so it's easy to see.
-	grid.area:setFillColor(218, 218, 218)
-
 	--### Grid functions
 
 	-- These functions will be placed on our grid squares. They'll help us find
@@ -109,7 +122,7 @@ function play()
 			if gridSquare.x == 0 then
 				return gridSquare
 			else
-				return grid[gridSquare.x - 1][gridSquare.y]
+				return grid[gridSquare.y][gridSquare.x - 1]
 			end
 		end,
 
@@ -124,7 +137,7 @@ function play()
 			if gridSquare.x + 1 == grid.xSquares then
 				return gridSquare
 			else
-				return grid[gridSquare.x + 1][gridSquare.y]
+				return grid[gridSquare.y][gridSquare.x + 1]
 			end
 		end,
 
@@ -135,7 +148,7 @@ function play()
 			if gridSquare.y == 0 then
 				return gridSquare
 			else
-				return grid[gridSquare.x][gridSquare.y - 1]
+				return grid[gridSquare.y - 1][gridSquare.x]
 			end
 		end,
 
@@ -146,7 +159,7 @@ function play()
 			if gridSquare.y + 1 == grid.ySquares then
 				return gridSquare
 			else
-				return grid[gridSquare.x][gridSquare.y + 1]
+				return grid[gridSquare.y + 1][gridSquare.x]
 			end
 		end,
 	}
@@ -156,27 +169,26 @@ function play()
 	-- In order to set up a grid, we'll loops to avoid repeating out similar code
 	-- for each of the grid squares. Because we have *x* coordinates and *y*
 	-- coordinates we'll use nested loops. One within another. This means that
-	-- each time we change the *x* coordinate we'll go through a whole column of
-	-- *y* values, then start a new column.
+	-- each time we change the *y* coordinate we'll go through a whole column of
+	-- *x* values, then start a new row.
 
-	-- This loop will count x coordinates from 0 to 9. How many columns will
-	-- that create?
-	for x = 0, grid.xSquares do
+	-- We'll start with rows this time around. Previously we started with *x*
+	-- values in the outer loop but because it's easier to write lists in rows
+	-- than in columns, we've switched it here so it will line up with our maze
+	-- better.
+	for y = 0, grid.ySquares - 1 do
+		-- The first thing we do is create a row for this coordinate. We use `[]`
+		-- to "index" the column with its coordinate and set the x field for this
+		-- column to be the *x* coordinate value.
+		grid[y] = {y = y}
 
-		-- The first thing we do is create a column for this coordinate.
-		-- We use `[]` to "index" the column with its coordinate and set the
-		-- x field for this column to be the *x* coordinate value.
-		grid[x] = {x = x}
-
-		-- Now that we've set up our column it's time to make our way down the
-		-- *y* values starting from 0 and going to 5. How many rows will this
-		-- create?
-		for y = 0, grid.ySquares do
+		-- Now we go column by column and set up the grid.
+		for x = 0, grid.xSquares - 1 do
 
 			-- For each grid square, we'll set it up to be indexed first by
 			-- its *x* coordinate and next by its *y* coordinate. We also
 			-- set the x and y fields of the square to match its coordinates.
-			grid[x][y] = {x = x, y = y} -- Create grid element.
+			grid[y][x] = {x = x, y = y}
 
 			-- Now we create a display object for the rectangle. This is what
 			-- will allow us to actually draw the object on the screen.
@@ -193,88 +205,89 @@ function play()
 			grid.squareSize * x, grid.squareSize * y,
 			grid.squareSize, grid.squareSize)
 
-			-- We're going to make our grid invisible. If you want to see where
-			-- it will be, add the lines
-			-- ```lua
-			-- rect:setStrokeColor(0, 0, 0, 0.25)
-			-- rect.strokeWidth = 5
-			-- ```
-			-- to the end of this block.
-			rect:setFillColor(0, 0, 0, 0)
+			-- Here we'll add in the maze elements to our grid. Because the maze uses
+			-- a list that begins with 1, where we started at 0, we add 1 to the *x*
+			-- and *y* values to get the correct maze square.
+			if maze[y + 1][x + 1] == 0 then
+				rect:setFillColor(245, 215, 98)
+			else 
+				grid[y][x].wall = true
+				rect:setFillColor(32, 96, 32, 255)
+			end
 
 			-- Now that we've created our display object, we attach it to our
 			-- grid square.
-			grid[x][y].displayObject = rect
+			grid[y][x].displayObject = rect
 
 			-- And finally we attach the functions we wrote earlier to each
 			-- square so it is more convient to call on them later.
-			grid[x][y].left = grid.functions.left
-			grid[x][y].right = grid.functions.right
-			grid[x][y].above = grid.functions.above
-			grid[x][y].below = grid.functions.below
+			grid[y][x].left = grid.functions.left
+			grid[y][x].right = grid.functions.right
+			grid[y][x].above = grid.functions.above
+			grid[y][x].below = grid.functions.below
 
-			-- The end of one column.
+			-- The end of one row.
 		end
-		-- The end of one row.
+		-- The end of one column.
 	end
+	grid[maze.yStart - 1][maze.xStart - 1].start = true
+	grid[maze.yStart - 1][maze.xStart - 1].displayObject:setFillColor(192, 192, 255)
+	grid[maze.yFinish - 1][maze.xFinish - 1].displayObject:setFillColor(192, 128, 128)
+	grid[maze.yStart - 1][maze.xStart - 1].start = true
+	grid[maze.yFinish - 1][maze.xFinish - 1].finish = true
 
 
-	--## Create the robot and kitten
+	--## Create the runner
 
-	-- Finally we get to the stars of our game! We'll create a robot object
-	-- and a kitten object and give each of them an image field that holds
-	-- the name of the image we'll use to show them on the screen.
-	local robot = { image = "robot.png" }
-	local kitten = { image = "kitten.png" }
+	-- Now we'll create a runner.
+	local runner = { image = "runner.png" }
 
-
-	-- Now we need a function to allow the robot and kitten to move to a
-	-- particular square 
-	local function enter(character, gridSquare)
+	-- We need a function to allow the runner to move to a particular square.
+	function runner:enter(gridSquare)
 		-- The first time we show the character, there won't be a display object,
 		-- so we'll have to create one.
-		if character.displayObject == nil then
-			character.displayObject = display.newImageRect(grid.displayGroup,
-			character.image, grid.squareSize, grid.squareSize)
+		if self.displayObject == nil then
+			self.displayObject = display.newImageRect(grid.displayGroup,
+			self.image, grid.squareSize, grid.squareSize)
+			self.displayObject:setFillColor(92, 92, 92)
 		end
 
-		-- Now our character's display object should be in the same position on
-		-- the screen as the grid square that character is in.
-		character.displayObject.x = gridSquare.displayObject.x
-		character.displayObject.y = gridSquare.displayObject.y
+		-- Now our self's display object should be in the same position on
+		-- the screen as the grid square that self is in.
+		self.displayObject.x = gridSquare.displayObject.x
+		self.displayObject.y = gridSquare.displayObject.y
 
-		-- We'll keep track of the grid square each character is in. It will come
+		-- We'll keep track of the grid square each self is in. It will come
 		-- in handy when they want to move.
-		character.gridSquare = gridSquare
+		self.gridSquare = gridSquare
 
-		-- we'll also save the *x* and *y* coordinate of the character just like
+		-- we'll also save the *x* and *y* coordinate of the self just like
 		-- the grid square.
-		character.x = gridSquare.x
-		character.y = gridSquare.y
+		self.x = gridSquare.x
+		self.y = gridSquare.y
+
+		if self.gridSquare.finish then
+			finish()
+		end
 	end
 
-	-- It's convenient for us to attach this function directly to each
-	-- character.
-	robot.enter = enter
-	kitten.enter = enter
 
-	-- The robot can only enter squares that don't have obstacles. Even though
+	-- The runner can only enter squares that don't have obstacles. Even though
 	-- all this method does is check for the presence of an obstacle, we'll do
-	-- it like this because it controls the actions of the robot.
-	function robot:canEnter(gridSquare)
-		return gridSquare.obstacle == nil
+	-- it like this because it controls the actions of the runner.
+	function runner:canEnter(gridSquare)
+		return gridSquare.wall == nil
 	end
 
-	-- The robot starts off in the top left square. The kitten starts off
-	-- hidden, so we don't have it enter any square.
-	robot:enter(grid[0][0])
+	-- The runner starts off in the maze start.
+	runner:enter(grid[maze.yStart - 1][maze.xStart - 1])
 
 
 	--##  Creating the controls.
 
 	-- Our controls will be composed of an on-screen directional pad, just like
 	-- the one on a video game controller. Pressing the up, down, left, and
-	-- right buttons will move the robot around the map grid 
+	-- right buttons will move the runner around the map grid 
 
 	-- The center of our control pad will be at the halfway point of the control
 	-- area width...
@@ -332,124 +345,20 @@ function play()
 	left.y = controlCenterY
 	controls.left.displayObject = left
 
-	--## Display the saying
+	--## Make the runner move
 
-	-- This is the saying that appears at the bottom of the screen whenever a
-	-- new obstacle is encountered.
-
-	local saying = {
-		font = native.systemFont,
-		x = 100, y = 700,
-		fontSize = 48
-	}
-
-	-- We need a method that allows us update the saying's text with some new
-	-- text.
-	function saying:update(newText)
-		-- If no saying has ever been displayed, we need to create a display
-		-- object for the text.
-		if self.displayText == nil then
-			self.displayText = display.newText(newText,
-			self.x, self.y,
-			self.font, self.fontSize)
-			-- Otherwise, we just update the text of the existing display object.
-		else
-			self.displayText.text = newText
-		end
-	end
-
-	-- Now we can set the starting message using the method we just wrote.
-	saying:update("Where is the kitten?")
-
-	--## Display obstacles
-
-	-- Our kitten needs some obstacles to hide behind. Each obstacle will have
-	-- an image, which is the name of the image file that we'll use to display
-	-- the obstacle. Each obstacle should also have a saying associated with it
-	-- the sayings can be anything you want but they should make you feel happy
-	-- and thoughtful.
-
-	-- We'll start out with an empty table to put our obstacles in.
-	local obstacles = {}
-
-	-- This function is going to be used as a method for each of our obstacles.
-	-- It will check if there's a kitten hiding behind this obstacle and send
-	-- back true or false. We'll associate this function with each table as the
-	-- hasKitten method.
-	local function obstacleHasKitten(obstacle)
-		return obstacle.kitten == true
-	end
-
-	-- This function will be used to place the obstacle on the grid somewhere.
-	-- It will be attached to each obstacle as the put method.
-	local function putObstacle(obstacle, gridSquare)
-		obstacle.x = gridSquare.x
-		obstacle.y = gridSquare.y
-		obstacle.displayObject = display.newImageRect(grid.displayGroup, obstacle.image,
-		grid.squareSize, grid.squareSize)
-		obstacle.displayObject.x = gridSquare.displayObject.x
-		obstacle.displayObject.y = gridSquare.displayObject.y
-		gridSquare.obstacle = obstacle
-	end
-
-
-	-- One of the obstacles will be a rock.
-	obstacles.rock = {
-		image = "rock.png",
-		saying = "There is no spoon.. or cat",
-		hasKitten = obstacleHasKitten,
-		put = putObstacle,
-	}
-	-- In addition to giving each obstacle a name, we're also going to keep them
-	-- in a list. Remember that you can use tables as lists if you use numbers
-	-- for the field names.
-	obstacles[0] = obstacles.rock
-
-	obstacles.trashcan = {
-		image = "trash.png",
-		saying = "Hmm. What was I looking for?",
-		hasKitten = obstacleHasKitten,
-		put = putObstacle,
-	}
-	obstacles[1] = obstacles.trashcan
-
-	obstacles.bush = {
-		image = "bush.png",
-		saying = "The sky is nice today.",
-		hasKitten = obstacleHasKitten,
-		put = putObstacle,
-	}
-	obstacles[2] = obstacles.bush
-
-	-- Now we can put our obstacles on the screen.
-	obstacles.rock:put(grid[4][1])
-	obstacles.bush:put(grid[6][3])
-	obstacles.trashcan:put(grid[2][5])
-
-	-- Now that our obstacles are all placed, let's hide the kitten behind a
-	-- different one each time using a random number generator.
-	obstacles[math.random(0, 2)].kitten = true
-
-	--## Make the robot move
-
-	-- Now it's time to create functions that will move our robot into new grid
+	-- It's time to create functions that will move our runner into new grid
 	-- squares. We'll define functions for moving left, right, up, and down.
-	-- The function will check that the grid square has no obstacle before 
-	-- moving into it. If the square is free, the robot will move there.
-	-- Otherwise we'll see if the kitten is hiding in this obstacle. If there is
-	-- a kitten, then the game is over. If there's not we just update the saying
-	-- to be whichever one is associated with this obstacle.
+	-- The function will check that the grid square is free or has a wall before
+	-- moving into it. If the square is free, the runner will move there.
+	-- Otherwise the runner will stay where he is.
 
 	-- This function will run when we press the left arrow.
 	local function pressLeft(event)
 		if event.phase == "began" then
-			local nextSquare = robot.gridSquare:left()
-			if robot:canEnter(nextSquare) then
-				robot:enter(nextSquare)
-			elseif nextSquare.obstacle:hasKitten() then
-				robotfindskitten()
-			else
-				saying:update(nextSquare.obstacle.saying)
+			local nextSquare = runner.gridSquare:left()
+			if runner:canEnter(nextSquare) then
+				runner:enter(nextSquare)
 			end
 		end
 	end
@@ -457,13 +366,9 @@ function play()
 	-- This function will run when we press the right arrow.
 	local function pressRight(event)
 		if event.phase == "began" then
-			local nextSquare  = robot.gridSquare:right()
-			if robot:canEnter(nextSquare) then
-				robot:enter(nextSquare)
-			elseif nextSquare.obstacle:hasKitten() then
-				robotfindskitten()
-			else
-				saying:update(nextSquare.obstacle.saying)
+			local nextSquare  = runner.gridSquare:right()
+			if runner:canEnter(nextSquare) then
+				runner:enter(nextSquare)
 			end
 		end
 	end
@@ -471,13 +376,9 @@ function play()
 	-- This function will run when we press the up arrow.
 	local function pressUp(event)
 		if event.phase == "began" then
-			local nextSquare  = robot.gridSquare:above()
-			if robot:canEnter(nextSquare) then
-				robot:enter(nextSquare)
-			elseif nextSquare.obstacle:hasKitten() then
-				robotfindskitten()
-			else
-				saying:update(nextSquare.obstacle.saying)
+			local nextSquare  = runner.gridSquare:above()
+			if runner:canEnter(nextSquare) then
+				runner:enter(nextSquare)
 			end
 		end
 	end
@@ -485,13 +386,9 @@ function play()
 	-- This function will run when we press the down arrow.
 	local function pressDown(event)
 		if event.phase == "began" then
-			local nextSquare  = robot.gridSquare:below()
-			if robot:canEnter(nextSquare) then
-				robot:enter(nextSquare)
-			elseif nextSquare.obstacle:hasKitten() then
-				robotfindskitten()
-			else
-				saying:update(nextSquare.obstacle.saying)
+			local nextSquare  = runner.gridSquare:below()
+			if runner:canEnter(nextSquare) then
+				runner:enter(nextSquare)
 			end
 		end
 	end
@@ -504,14 +401,7 @@ function play()
 	controls.down.displayObject:addEventListener("touch", pressDown)
 
 
-	--## Robot finds kitten!
-
-	-- This function will be used to move the robot and kitten together. Each
-	-- time you run it, they get one square closer to eachother.
-	local function animatedReunion()
-		robot:enter(grid[robot.x + 1][robot.y])
-		kitten:enter(grid[kitten.x - 1][kitten.y])
-	end
+	--## Finish!
 
 	-- We'll create a button that allows you to play again. It will appear where
 	-- the control arrows used to be.
@@ -543,24 +433,7 @@ function play()
 	end
 
 	-- This function will run when the game is over.
-	function robotfindskitten()
-		-- Remove all obstacles.
-		for i = 0, 2 do
-			grid.displayGroup:remove(obstacles[i].displayObject)
-			obstacles[i].displayObject = nil
-		end
-
-		-- Create a display object for the kitten.
-		kitten.displayObject = display.newImageRect(grid.displayGroup, "kitten.png",
-		grid.squareSize, grid.squareSize)
-		-- Set the enter method for the kitten.
-		kitten.enter = robot.enter
-
-		-- Move the robot into the 4th row.
-		robot:enter(grid[0][4])
-		-- Move the kitten onto the grid, across from the robot.
-		kitten:enter(grid[9][4])
-
+	function finish()
 		-- We need to hide all of the controls, so the player can't interrupt the
 		-- reunion.
 		display.remove(circlePad)
@@ -574,15 +447,7 @@ function play()
 		display.remove(controls.right.displayObject)
 		controls.right.displayObject = nil
 
-		-- Remove the saying.
-		display.remove(saying.displayText)
-		saying.displayText = nil
-
-		-- Now we animate the robot and kitten getting closer and closer until they
-		-- finally reunite.
-		timer.performWithDelay(1000, animatedReunion, 4)
-		-- Lastly, we show the play again button after the animation is over.
-		timer.performWithDelay(4000, showPlayAgain, 1)
+		showPlayAgain()
 	end
 end
 
