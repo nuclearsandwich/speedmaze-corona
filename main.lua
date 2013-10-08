@@ -161,7 +161,7 @@ function play()
 
 	-- This loop will count x coordinates from 0 to 9. How many columns will
 	-- that create?
-	for x = 0, 9 do
+	for x = 0, grid.xSquares do
 
 		-- The first thing we do is create a column for this coordinate.
 		-- We use `[]` to "index" the column with its coordinate and set the
@@ -171,7 +171,7 @@ function play()
 		-- Now that we've set up our column it's time to make our way down the
 		-- *y* values starting from 0 and going to 5. How many rows will this
 		-- create?
-		for y = 0, 5 do
+		for y = 0, grid.ySquares do
 
 			-- For each grid square, we'll set it up to be indexed first by
 			-- its *x* coordinate and next by its *y* coordinate. We also
