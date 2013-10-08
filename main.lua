@@ -495,11 +495,17 @@ playAgainButton.hide = startButton.hide
 -- Create the stopwatch object.
 local stopwatch = {}
 
--- The clock starts at 0.
-stopwatch.time = 0.0
+-- The clock starts at 0.0
+stopwatch.clock = 0.0
+
+stopwatch.formatClock = function(watch)
+	return string.format("%3.1f", watch.clock)
+end
+
+
 
 -- Create some text that will display the time on the watch.
-stopwatch.displayText = display.newText(stopwatch.time, 100, 700,
+stopwatch.displayText = display.newText(stopwatch:formatClock(), 100, 700,
 	native.systemFont, 48)
 
 -- This function runs each "tick" of the stopwatch. It will update the displayed
@@ -508,8 +514,8 @@ stopwatch.displayText = display.newText(stopwatch.time, 100, 700,
 -- argument. There are ways around this, but they overcomplicate things. Maybe
 -- we'll explore them in the future.
 stopwatch.increment = function(timerData)
-	stopwatch.clock = stopwatch.clock + 1
-	stopwatch.displayText.text = stopwatch.clock
+	stopwatch.clock = stopwatch.clock + 0.1
+	stopwatch.displayText.text = stopwatch:formatClock()
 end
 
 -- Write a method that starts the stopwatch.
@@ -526,7 +532,7 @@ stopwatch.start = function(watch)
 	-- does it return *right now*? It returns a timer ID number that we can use
 	-- to stop the timer later. We need to save this so we can stop the timer when
 	-- the player's runner crosses the finish line.
-	watch.timer = timer.performWithDelay(1000, watch.increment, 0)
+	watch.timer = timer.performWithDelay(100, watch.increment, 0)
 end
 
 -- Now we need to stop the stopwatch when the runner finishes the maze. We can
@@ -539,7 +545,7 @@ end
 -- set the clock back to zero and update the display.
 stopwatch.reset = function(watch)
 	watch.clock = 0
-	watch.displayText.text = watch.clock
+	watch.displayText.text = watch:formatClock()
 end
 
 
