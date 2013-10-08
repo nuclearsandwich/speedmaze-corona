@@ -1076,10 +1076,10 @@ start of the game.</p>
         <li id="section-60">
             <div class="annotation">
               
-              <div class="pilwrap for-h2">
+              <div class="pilwrap for-h3">
                 <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
-              <h2>Make the runner move</h2>
+              <h3>Make the runner move</h3>
 
             </div>
             
@@ -1436,7 +1436,7 @@ playAgainButton.hide = startButton.hide</pre></div></div>
               <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-79">&#182;</a>
               </div>
-              <h2>The main game function.</h2>
+              <h2>Create the stopwatch</h2>
 
             </div>
             
@@ -1449,17 +1449,12 @@ playAgainButton.hide = startButton.hide</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-80">&#182;</a>
               </div>
-              <p>This play function is much simpler than our last game because we took most
-of the code out so it only ran once. This means that our game will start
-over many more times without crashing, but it also means less can change
-between restarts. The extra section will show you how to change the maze
-between restarts. When the player finishes, they can still start over
-without closing and restarting the game.</p>
+              <p>We‘ve decided that one way to make this game more fun is to time the user
+while they run the maze. To do this, we’ll add a stopwatch to the game that
+tracks the number of seconds from when when the player hits the start button
+until the runner enters the finish square of the maze.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>
-<span class="function"><span class="keyword">function</span> <span class="title">play</span><span class="params">()</span></span></pre></div></div>
             
         </li>
         
@@ -1470,11 +1465,11 @@ without closing and restarting the game.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-81">&#182;</a>
               </div>
-              <p>The runner starts off in the maze start.</p>
+              <p>Create the stopwatch object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>	runner:enter(grid[maze.yStart - <span class="number">1</span>][maze.xStart - <span class="number">1</span>])</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="keyword">local</span> stopwatch = {}</pre></div></div>
             
         </li>
         
@@ -1485,11 +1480,15 @@ without closing and restarting the game.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-82">&#182;</a>
               </div>
-              <p>The play again button starts out hidden since we haven&#39;t started yet!</p>
+              <p>The clock starts at 0.0</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>	playAgainButton:hide()</pre></div></div>
+            <div class="content"><div class='highlight'><pre>stopwatch.clock = <span class="number">0.0</span>
+
+stopwatch.formatClock = function(watch)
+	<span class="keyword">return</span> <span class="built_in">string</span>.format(<span class="string">"%3.1f"</span>, watch.clock)
+<span class="keyword">end</span></pre></div></div>
             
         </li>
         
@@ -1500,15 +1499,12 @@ without closing and restarting the game.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-83">&#182;</a>
               </div>
-              <p>The controls start out hidden because we want the player to call “start”
-first.</p>
+              <p>Create some text that will display the time on the watch.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>	controls:hide()
-
-	startButton:show()
-<span class="keyword">end</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>stopwatch.displayText = display.newText(stopwatch:formatClock(), <span class="number">100</span>, <span class="number">700</span>,
+	native.systemFont, <span class="number">48</span>)</pre></div></div>
             
         </li>
         
@@ -1516,12 +1512,21 @@ first.</p>
         <li id="section-84">
             <div class="annotation">
               
-              <div class="pilwrap for-h2">
+              <div class="pilwrap ">
                 <a class="pilcrow" href="#section-84">&#182;</a>
               </div>
-              <h2>Start the game</h2>
+              <p>This function runs each “tick” of the stopwatch. It will update the displayed
+time. Note that this function is <em>not</em> a method. We have to name the
+stopwatch exactly instead of using the method style with a <code>watch</code> as a first
+argument. There are ways around this, but they overcomplicate things. Maybe
+we&#39;ll explore them in the future.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>stopwatch.increment = function(timerData)
+	stopwatch.clock = stopwatch.clock + <span class="number">0.1</span>
+	stopwatch.displayText.text = stopwatch:formatClock()
+<span class="keyword">end</span></pre></div></div>
             
         </li>
         
@@ -1532,14 +1537,11 @@ first.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-85">&#182;</a>
               </div>
-              <p>The start function hides teh start button and shows the controls. This
-allows the player to start moving the runner.</p>
+              <p>Write a method that starts the stopwatch.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span></span>
-	controls:show()
-<span class="keyword">end</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>stopwatch.start = function(watch)</pre></div></div>
             
         </li>
         
@@ -1547,10 +1549,16 @@ allows the player to start moving the runner.</p>
         <li id="section-86">
             <div class="annotation">
               
-              <div class="pilwrap for-h2">
+              <div class="pilwrap ">
                 <a class="pilcrow" href="#section-86">&#182;</a>
               </div>
-              <h2>Finish!</h2>
+              <p>We use the perform with delay library function to have Corona call us
+when the timer runs out. We&#39;ve set the timer to run ever 1000 milliseconds.
+A millisecond is 1/1000th of a second so if we wait 1000 1/1000ths of a
+second we wait exactly one second. Say that 10 times fast. We tell Corona
+to “call us” by running our watch increment function. The last 0 is the
+argument that tells Corona how many times to re-run the timer. By sending a
+zero we tell Corona to run forever.</p>
 
             </div>
             
@@ -1563,13 +1571,14 @@ allows the player to start moving the runner.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-87">&#182;</a>
               </div>
-              <p>Finish the game by hiding the controls and displaying the play again button.</p>
+              <p>Since this function is going to call us when the time runs out. So what
+does it return <em>right now</em>? It returns a timer ID number that we can use
+to stop the timer later. We need to save this so we can stop the timer when
+the player&#39;s runner crosses the finish line.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">finish</span><span class="params">()</span></span>
-	controls:hide()
-	playAgainButton:show()
+            <div class="content"><div class='highlight'><pre>	watch.timer = timer.performWithDelay(<span class="number">100</span>, watch.increment, <span class="number">0</span>)
 <span class="keyword">end</span></pre></div></div>
             
         </li>
@@ -1580,6 +1589,189 @@ allows the player to start moving the runner.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-88">&#182;</a>
+              </div>
+              <p>Now we need to stop the stopwatch when the runner finishes the maze. We can
+do that by cancelling the timer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>stopwatch.stop = function(watch)
+	timer.cancel(watch.timer)
+<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-89">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-89">&#182;</a>
+              </div>
+              <p>All we have left to do is make sure we can reset the watch. to do so. We just
+set the clock back to zero and update the display.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>stopwatch.reset = function(watch)
+	watch.clock = <span class="number">0</span>
+	watch.displayText.text = watch:formatClock()
+<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-90">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-90">&#182;</a>
+              </div>
+              <h2>The main game function</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-91">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-91">&#182;</a>
+              </div>
+              <p>This play function is much simpler than our last game because we took most
+of the code out so it only ran once. This means that our game will start
+over many more times without crashing, but it also means less can change
+between restarts. The extra section will show you how to change the maze
+between restarts. When the player finishes, they can still start over
+without closing and restarting the game.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">play</span><span class="params">()</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-92">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-92">&#182;</a>
+              </div>
+              <p>The runner starts off in the maze start.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	runner:enter(grid[maze.yStart - <span class="number">1</span>][maze.xStart - <span class="number">1</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-93">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-93">&#182;</a>
+              </div>
+              <p>The play again button starts out hidden since we haven&#39;t started yet!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	playAgainButton:hide()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-94">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-94">&#182;</a>
+              </div>
+              <p>The controls start out hidden because we want the player to call “start”
+first.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	controls:hide()
+	stopwatch:reset()
+	startButton:show()
+<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-95">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-95">&#182;</a>
+              </div>
+              <h2>Start the game</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-96">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-96">&#182;</a>
+              </div>
+              <p>The start function hides teh start button and shows the controls. This
+allows the player to start moving the runner.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span></span>
+	controls:show()
+	stopwatch:start()
+<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-97">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-97">&#182;</a>
+              </div>
+              <h2>Finish!</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-98">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-98">&#182;</a>
+              </div>
+              <p>Finish the game by hiding the controls and displaying the play again button.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">finish</span><span class="params">()</span></span>
+	controls:hide()
+	stopwatch:stop()
+	playAgainButton:show()
+<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-99">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-99">&#182;</a>
               </div>
               <p>Play the game!</p>
 

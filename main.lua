@@ -557,7 +557,6 @@ end
 -- between restarts. The extra section will show you how to change the maze
 -- between restarts. When the player finishes, they can still start over
 -- without closing and restarting the game.
-
 function play()
 
 	-- The runner starts off in the maze start.
